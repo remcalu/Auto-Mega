@@ -1,0 +1,26 @@
+{
+  "vehicleBrandModels" : [
+    {"toyota" : ["corolla", "camry", "avalon", "matrix", "yaris"]}, 
+    {"honda" : ["civic", "accord", "insight"]},
+    {"hyundai" : ["elantra", "accent", "sonata", "veloster", "venue"]},
+    {"mazda" : ["mazda3", "mazda6"]},
+    {"nissan" : ["altima", "maxima", "sentra", "versa"]},
+    {"ford" : ["fusion", "focus", "fiesta"]},
+    {"chevrolet" : ["malibu", "spark", "trax"]},
+    {"volkswagen" : ["passat", "jetta"]},
+    {"subaru" : ["legacy", "impreza"]},
+    {"mitsubishi" : ["mirage g4", "mirage"]},
+    {"lexus" : ["is", "es"]},
+    {"dodge" : ["charger"]},
+    {"bmw" : ["3 series"]}
+  ],
+  "distanceFromPostalCode" : 500,
+  "postalCode" : "N2E1P6",
+  "maxMileage" : 150000,
+  "maxPrice" : 13000,
+  "minYear" : 2010,
+  "belowThreshold" : 10.0,
+  "includePrivateDealers" : true,
+  "transmission" : "Automatic"
+}
+  
