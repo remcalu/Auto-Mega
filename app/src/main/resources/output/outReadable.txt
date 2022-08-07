@@ -1,0 +1,72 @@
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[2022-07-17 18:49] AT  2017   71337    $6499    Nissan       Altima        DEAL   null                 https://www.autotrader.ca/a/nissan/altima/hamilton/ontario/5_55335321_20150515120435564/?showcpo=ShowCpo&ncse=no&orup=1_4_4&pc=N2E%201P6&sprx=500
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[2022-07-31 00:36] KI  2016   122000   $8700    Nissan       Versa         PRIV   null                 https://www.kijiji.ca/v-cars-trucks/city-of-toronto/nissan-versa-2016-backup-cam-certified-no-accidents/1625887840
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[2022-07-17 18:49] AT  2015   140000   $8995    Hyundai      Accent        DEAL   null                 https://www.autotrader.ca/a/hyundai/accent/toronto/ontario/5_49973649_20201105204803368/?showcpo=ShowCpo&ncse=no&orup=2_5_5&pc=N2E%201P6&sprx=500
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[2022-07-17 18:49] AT  2016   115000   $9000    Nissan       Altima        PRIV   null                 https://www.autotrader.ca/a/nissan/altima/gatineau/quebec/19_12275157_/?showcpo=ShowCpo&ncse=no&orup=2_4_4&pc=N2E%201P6&sprx=500
+[2022-07-31 00:36] AT  2015   114000   $9999    Nissan       Sentra        PRIV   null                 https://www.autotrader.ca/a/nissan/sentra/scarborough/ontario/19_12330660_/?showcpo=ShowCpo&ncse=no&orup=1_8_8&pc=N2E%201P6&sprx=500
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[2022-07-31 00:36] AT  2015   16600    $10295   Hyundai      Elantra       DEAL   null                 https://www.autotrader.ca/a/hyundai/elantra/north%20york/ontario/5_55728591_20210526145700242/?showcpo=ShowCpo&ncse=no&orup=1_8_12&pc=N2E%201P6&sprx=500
+[2022-07-17 18:49] CP  2016   90517    $10386   Nissan       Versa         DEAL   null                 https://www.carpages.ca//used-cars/ontario/cambridge/2016-nissan-versa-6208593/
+[2022-07-17 18:49] CP  2016   122762   $10495   Nissan       Sentra        DEAL   null                 https://www.carpages.ca//used-cars/ontario/trenton/2016-nissan-sentra-5055840/
+[2022-07-31 00:36] AT  2015   139000   $10500   Kia          Forte         PRIV   null                 https://www.autotrader.ca/a/kia/forte/scarborough/ontario/19_12333035_/?showcpo=ShowCpo&ncse=no&orup=1_4_4&pc=N2E%201P6&sprx=500
+[2022-07-17 18:49] CP  2016   98103    $10795   Hyundai      Elantra       DEAL   null                 https://www.carpages.ca//used-cars/ontario/trenton/2016-hyundai-elantra-5672454/
+[2022-07-17 18:49] CP  2015   136013   $10995   Hyundai      Sonata        DEAL   null                 https://www.carpages.ca//used-cars/ontario/trenton/2015-hyundai-sonata-4856034/
+[2022-07-31 00:36] AT  2016   146909   $10995   Hyundai      Veloster      DEAL   null                 https://www.autotrader.ca/a/hyundai/veloster/cambridge/ontario/5_55726872_20130805091635788/?showcpo=ShowCpo&ncse=no&ursrc=hl&orup=1_1_1&pc=N2E%201P6&sprx=500
+[2022-07-31 00:36] CP  2015   72000    $10999   Nissan       Sentra        DEAL   null                 https://www.carpages.ca//used-cars/ontario/north-york/2015-nissan-sentra-8820242/
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[2022-07-17 18:49] CP  2016   89702    $11495   Nissan       Sentra        DEAL   null                 https://www.carpages.ca//used-cars/ontario/trenton/2016-nissan-sentra-5086946/
+[2022-07-17 18:49] CP  2015   141909   $11495   Nissan       Altima        DEAL   null                 https://www.carpages.ca//used-cars/ontario/trenton/2015-nissan-altima-5579733/
+[2022-07-31 00:36] AT  2015   149510   $11499   Nissan       Sentra        DEAL   null                 https://www.autotrader.ca/a/nissan/sentra/oakville/ontario/5_55671379_20211125163335390/?showcpo=ShowCpo&ncse=no&orup=2_8_8&pc=N2E%201P6&sprx=500
+[2022-07-17 18:49] AT  2015   140500   $11500   Nissan       Sentra        DEAL   null                 https://www.autotrader.ca/a/nissan/sentra/brampton/ontario/5_55462031_20201028124824931/?showcpo=ShowCpo&ncse=no&orup=3_9_9&pc=N2E%201P6&sprx=500
+[2022-07-31 00:36] AT  2016   129621   $11591   Hyundai      Elantra       DEAL   null                 https://www.autotrader.ca/a/hyundai/elantra/thornhill/ontario/5_55682604_20190311165925410/?showcpo=ShowCpo&ncse=no&ursrc=hl&orup=2_8_12&pc=N2E%201P6&sprx=500
+[2022-07-17 18:49] CP  2018   116227   $11768   Kia          Forte         DEAL   null                 https://www.carpages.ca//used-cars/ontario/niagara-falls/2018-kia-forte-6424183/
+[2022-07-17 18:49] AT  2015   140933   $11810   Nissan       Sentra        DEAL   null                 https://www.autotrader.ca/a/nissan/sentra/brockville/ontario/5_54161301_20130104143705273/?showcpo=ShowCpo&ncse=no&ursrc=pl&urp=1&urm=1&pc=N2E%201P6&sprx=500
+[2022-07-17 18:49] AT  2015   140845   $11990   Hyundai      Elantra       DEAL   null                 https://www.autotrader.ca/a/hyundai/elantra/brampton/ontario/5_55295423_20210330181330002/?showcpo=ShowCpo&ncse=no&ursrc=hl&orup=4_10_14&pc=N2E%201P6&sprx=500
+[2022-07-17 18:49] AT  2015   132000   $11995   Mazda        Mazda 3       DEAL   null                 https://www.autotrader.ca/a/mazda/mazda3/toronto/ontario/5_55308762_20160113152653156/?showcpo=ShowCpo&ncse=no&orup=1_1_1&pc=N2E%201P6&sprx=500
+[2022-07-31 00:36] AT  2015   138185   $11995   Honda        Civic         DEAL   null                 https://www.autotrader.ca/a/honda/civic/london/ontario/5_55662755_20181112150720353/?showcpo=ShowCpo&ncse=no&orup=1_1_1&pc=N2E%201P6&sprx=500
+[2022-07-31 00:36] CP  2016   140000   $11995   Nissan       Versa         DEAL   null                 https://www.carpages.ca//used-cars/ontario/kitchener/2016-nissan-versa-8867072/
+[2022-07-17 18:49] CP  2015   106065   $11998   Hyundai      Elantra       DEAL   null                 https://www.carpages.ca//used-cars/ontario/newmarket/2015-hyundai-elantra-7996278/
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[2022-07-20 20:10] AT  2016   95000    $12000   Kia          Forte         PRIV   null                 https://www.autotrader.ca/a/kia/forte/oakville/ontario/19_12326536_/?showcpo=ShowCpo&ncse=no&orup=3_6_6&pc=N2E%201P6&sprx=500
+[2022-07-17 18:49] AT  2015   140824   $12480   Hyundai      Elantra       DEAL   null                 https://www.autotrader.ca/a/hyundai/elantra/gatineau/quebec/5_53332942_20191029142929493/?showcpo=ShowCpo&ncse=no&orup=5_10_14&pc=N2E%201P6&sprx=500
+[2022-07-31 00:36] AT  2015   92454    $12495   Nissan       Sentra        DEAL   null                 https://www.autotrader.ca/a/nissan/sentra/gatineau/quebec/5_55011415_20150525111140454/?showcpo=ShowCpo&ncse=no&orup=5_8_8&pc=N2E%201P6&sprx=500
+[2022-07-17 18:49] CP  2017   147700   $12700   Kia          Forte         DEAL   null                 https://www.carpages.ca//used-cars/ontario/niagara-falls/2017-kia-forte-6917752/
+[2022-07-17 18:49] CP  2017   71275    $12800   Kia          Forte         DEAL   null                 https://www.carpages.ca//used-cars/ontario/niagara-falls/2017-kia-forte-7214714/
+[2022-07-17 18:49] AT  2016   99833    $12888   Kia          Forte         DEAL   null                 https://www.autotrader.ca/a/kia/forte/toronto/ontario/5_55522661_20210521125414388/?showcpo=ShowCpo&ncse=no&ursrc=hl&orup=3_5_5&pc=N2E%201P6&sprx=500
+[2022-07-17 18:49] AT  2015   115257   $12888   Nissan       Sentra        DEAL   null                 https://www.autotrader.ca/a/nissan/sentra/toronto/ontario/5_55602312_20210521125414388/?showcpo=ShowCpo&ncse=no&ursrc=hl&orup=5_9_9&pc=N2E%201P6&sprx=500
+[2022-07-17 18:49] AT  2015   123509   $12888   Nissan       Sentra        DEAL   null                 https://www.autotrader.ca/a/nissan/sentra/brantford/ontario/5_55533160_on20080317092146390/?showcpo=ShowCpo&ncse=no&ursrc=hl&orup=6_9_9&pc=N2E%201P6&sprx=500
+[2022-07-31 00:36] AT  2016   134799   $12888   Hyundai      Elantra       DEAL   null                 https://www.autotrader.ca/a/hyundai/elantra/toronto/ontario/5_55625016_20210521125414388/?showcpo=ShowCpo&ncse=no&ursrc=hl&orup=5_8_12&pc=N2E%201P6&sprx=500
+[2022-07-17 18:49] CP  2016   145310   $12899   Nissan       Altima        DEAL   null                 https://www.carpages.ca//used-cars/ontario/oshwa/2016-nissan-altima-5732598/
+[2022-07-17 18:49] CP  2017   145000   $12950   Nissan       Versa         DEAL   null                 https://www.carpages.ca//used-cars/ontario/concord/2017-nissan-versa-8831831/
+[2022-07-21 17:30] CP  2016   22636    $12995   Nissan       Versa         DEAL   null                 https://www.carpages.ca//used-cars/ontario/london/2016-nissan-versa-note-8850044/
+[2022-07-17 18:49] CP  2016   108310   $12995   Mazda        null          DEAL   null                 https://www.carpages.ca//used-cars/ontario/trenton/2016-mazda-mazda3-5483016/
+[2022-07-17 18:49] CP  2016   122300   $12995   Nissan       Sentra        DEAL   null                 https://www.carpages.ca//used-cars/ontario/toronto/2016-nissan-sentra-8716118/
+[2022-07-17 18:49] AT  2016   131031   $12995   Hyundai      Accent        DEAL   null                 https://www.autotrader.ca/a/hyundai/accent/milton/ontario/5_54811199_20180807151937302/?showcpo=ShowCpo&ncse=no&orup=4_5_5&pc=N2E%201P6&sprx=500
+[2022-07-31 00:36] AT  2016   141538   $12995   Hyundai      Elantra       DEAL   null                 https://www.autotrader.ca/a/hyundai/elantra/brampton/ontario/5_55646495_20220412135845600/?showcpo=ShowCpo&ncse=no&orup=6_8_12&pc=N2E%201P6&sprx=500
+[2022-07-31 00:36] AT  2015   95430    $12998   Hyundai      Accent        DEAL   null                 https://www.autotrader.ca/a/hyundai/accent/st.%20catharines/ontario/5_55648359_on20080716100447914/?showcpo=ShowCpo&ncse=no&orup=3_3_3&pc=N2E%201P6&sprx=500
+[2022-07-17 18:49] AT  2015   122194   $12998   Nissan       Altima        DEAL   null                 https://www.autotrader.ca/a/nissan/altima/mississauga/ontario/5_54541058_on20071219110425914/?showcpo=ShowCpo&ncse=no&orup=4_4_4&pc=N2E%201P6&sprx=500
+[2022-07-20 20:10] CP  2017   76650    $12999   Nissan       Sentra        DEAL   null                 https://www.carpages.ca//used-cars/ontario/toronto/2017-nissan-sentra-8843606/
+[2022-07-17 18:49] AT  2017   78268    $12999   Nissan       Sentra        DEAL   null                 https://www.autotrader.ca/a/nissan/sentra/pickering/ontario/5_55615449_20201027135010050/?showcpo=ShowCpo&ncse=no&orup=9_9_9&pc=N2E%201P6&sprx=500
+[2022-07-17 18:49] AT  2015   100050   $12999   Hyundai      Elantra       PRIV   null                 https://www.autotrader.ca/a/hyundai/elantra/markham/ontario/19_12286837_/?showcpo=ShowCpo&ncse=no&orup=8_10_14&pc=N2E%201P6&sprx=500
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[2022-07-20 20:10] AT  2016   91000    $13000   Kia          Forte         PRIV   null                 https://www.autotrader.ca/a/kia/forte/ajax/ontario/19_12326147_/?showcpo=ShowCpo&ncse=no&orup=6_6_6&pc=N2E%201P6&sprx=500
+[2022-07-17 18:49] AT  2017   145000   $13000   Hyundai      Elantra       PRIV   null                 https://www.autotrader.ca/a/hyundai/elantra/london/ontario/19_12304323_/?showcpo=ShowCpo&ncse=no&orup=9_10_14&pc=N2E%201P6&sprx=500

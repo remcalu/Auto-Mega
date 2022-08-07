@@ -1,40 +1,85 @@
 package auto.mega;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
+import org.apache.commons.lang3.tuple.Pair;
+
+import auto.mega.models.ConfigOptions;
 import auto.mega.models.Vehicle;
 import auto.mega.parsers.AutotraderParser;
-import auto.mega.utils.Constants;
-import auto.mega.utils.UtilMethods;
-import auto.mega.utils.VehicleFilter;
+import auto.mega.parsers.CarpagesParser;
+import auto.mega.parsers.KijijiParser;
+import auto.mega.utils.FileHelper;
+import auto.mega.utils.VehicleListHelper;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.stream.JsonReader;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication
 public class Main {
 
-  public static void main(String[] args) throws InterruptedException {
+  public static void main(String[] args) throws InterruptedException, ExecutionException {
 
-    /* Getting options file data */
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    JsonReader reader;
-    try {
-      reader = new JsonReader(new FileReader(Constants.PATH_CONFIG_FILE));
-    } catch (FileNotFoundException e) {
-      return;
+    SpringApplication.run(Main.class, args);
+    
+    ConfigOptions options = FileHelper.readConfigFile();
+
+    /* Getting parsers */
+    AutotraderParser autoTraderParser = new AutotraderParser();
+    KijijiParser kijijiParser = new KijijiParser();
+    CarpagesParser carpagesParser = new CarpagesParser();
+
+    /* Getting new vehicle lists concurrently */
+    CompletableFuture<Object> completableFuture = 
+      CompletableFuture.supplyAsync(() -> {
+        try {
+          return autoTraderParser.parseWebsite(options);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+          Thread.currentThread().interrupt();
+        }
+        return null;
+      }).thenCombine(
+      CompletableFuture.supplyAsync(() -> {
+        try {
+          return kijijiParser.parseWebsite(options);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+          Thread.currentThread().interrupt();
+        }
+        return null;
+      }).thenCombine(
+      CompletableFuture.supplyAsync(() -> {
+        try {
+          return carpagesParser.parseWebsite(options);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+          Thread.currentThread().interrupt();
+        }
+        return null;
+      }), VehicleListHelper::mergeVehicleLists), VehicleListHelper::mergeVehicleLists);
+
+    /* Getting old vehicle list */
+    ArrayList<Vehicle> oldVehicles = (ArrayList<Vehicle>) FileHelper.readVehicleOutputJson();
+
+    /* Populate new vehicle list with result of completeableFuture */
+    ArrayList<Vehicle> newVehicles = new ArrayList<>();
+    ArrayList<?> objectList = (ArrayList<?>) completableFuture.get();
+    for (Object x : objectList) {
+      newVehicles.add((Vehicle) x);
     }
-    JsonObject options = gson.fromJson(reader, JsonObject.class);
-    
-    AutotraderParser parser = new AutotraderParser();
-    ArrayList<Vehicle> allVehicles = parser.parseWebsite(options);
-    VehicleFilter filter = new VehicleFilter();
-    
-    ArrayList<Vehicle> allVehiclesFiltered = (ArrayList<Vehicle>) filter.filterVehicleList(allVehicles);
 
-    UtilMethods.getInstance().createCarOutputJson(allVehiclesFiltered);
+    /* Filter list */
+    Pair<List<Vehicle>, Integer> updatedVehiclesPair = VehicleListHelper.updateOldVehicleList(oldVehicles, newVehicles);
+    ArrayList<Vehicle> updatedVehicles = (ArrayList<Vehicle>) updatedVehiclesPair.getLeft();
+    updatedVehicles = (ArrayList<Vehicle>) VehicleListHelper.dedupeVehicleList(updatedVehicles);
+    updatedVehicles = (ArrayList<Vehicle>) VehicleListHelper.sortVehicleList(updatedVehicles);
+
+    /* Writing new data to files */
+    FileHelper.writeVehicleOutputJson(updatedVehicles);
+    FileHelper.writeVehicleListReadable(updatedVehicles);
   }
 }

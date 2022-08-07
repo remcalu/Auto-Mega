@@ -1,0 +1,12 @@
+#### Features to be implemented
+- [ ] Spring boot
+- [ ] React front-end
+- [ ] Database
+- [ ] Email notifications
+- [ ] Unit tests
+- [ ] Log4j
+- [x] Scraping for Autotrader
+- [x] Scraping for Kijiji
+- [ ] Scraping for Kijiji Auto
+- [x] Scraping for Carpages
+- [ ] Implement Javadoc

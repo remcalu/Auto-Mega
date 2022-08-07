@@ -9,6 +9,9 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+    id 'org.springframework.boot' version '2.7.2'
+	id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+	id 'java'
 }
 
 repositories {
@@ -28,11 +31,9 @@ dependencies {
     implementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.3.0'
     implementation 'org.seleniumhq.selenium:selenium-devtools-v102:4.3.0'
     implementation 'io.github.bonigarcia:webdrivermanager:5.2.1'
-    implementation 'org.slf4j:slf4j-simple:1.7.36'
-    
-    // https://mvnrepository.com/artifact/org.jsoup/jsoup
     implementation 'org.jsoup:jsoup:1.15.2'
-
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.7.2'
+    implementation 'org.springframework:spring-web:5.3.22'
 }
 
 application {

@@ -45,10 +45,13 @@ public class Vehicle {
     String websiteShort = "";
     if ("Autotrader".equals(website)) {
       websiteShort = "AT";
+    } else if ("Kijiji".equals(website)) {
+      websiteShort = "KI";
+    } else if ("Carpages".equals(website)) {
+      websiteShort = "CP";
     }
-
     String privateDealerString = Boolean.TRUE.equals(isPrivateDealer) ? "PRIV" : "DEAL";
-    return String.format("[%s] %s   %-6s %-8s $%-7s %-12s %-13s %-6s %-20s %s%n", dateScraped, websiteShort, year, mileage, price, brand, model, privateDealerString, marketValueDifference, link);
+    return String.format("[%s] %-3s %-6s %-8s $%-7s %-12s %-13s %-6s %-20s %s%n", dateScraped, websiteShort, year, mileage, price, brand, model, privateDealerString, marketValueDifference, link);
   }
 
   @Override
