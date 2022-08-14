@@ -18,13 +18,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 
-public class FileHelper {
+public class JsonHelper {
 
   private static final String PATH_CONFIG_FILE = "src/main/resources/options.json";
   private static final String VEHICLE_OUTPUT_FILE_PATH = "src/main/resources/output/out.json";
   private static final String VEHICLE_OUTPUT_READABLE_FILE_PATH = "src/main/resources/output/outReadable.txt";
 
-  private FileHelper() {}
+  private JsonHelper() {}
   
   public static ConfigOptions readConfigFile() {
     /* Getting options file data */
@@ -65,6 +65,15 @@ public class FileHelper {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  public static String vehicleListToJson(List<Vehicle> vehicleList) {
+    Gson gson = new GsonBuilder().
+    disableHtmlEscaping().
+    setPrettyPrinting().
+    create();
+    
+    return gson.toJson(vehicleList);
   }
 
   public static void writeVehicleListReadable(List<Vehicle> vehicleList) {      

@@ -1,6 +1,7 @@
 package auto.mega.parsers;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -52,6 +53,13 @@ public abstract class WebsiteParser {
   protected String getCurrentDateTime() {
     return new SimpleDateFormat("yyyy-MM-dd HH:mm")
       .format(new Date(System.currentTimeMillis()));
+  }
+
+  /** Gets the current time as epoch time 
+   * @return the long of the current time as epoch time
+  */
+  protected Long getCurrentInstant() {
+    return Instant.now().toEpochMilli();
   }
 
   /** Checks if an object is an ArrayList<String>

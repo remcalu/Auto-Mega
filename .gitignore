@@ -4,3 +4,8 @@
 # Ignore Gradle build output directory
 build
 app/bin
+
+# Ignore other files
+.vscode
+frontend/node_modules
+frontend/build

@@ -1,4 +1,4 @@
-package auto.mega.parsers;
+package auto.mega.parsers.autotrader;
 
 import java.util.Map;
 import java.util.Set;
@@ -6,15 +6,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
 
 import auto.mega.models.ConfigOptions;
 import auto.mega.models.Vehicle;
+import auto.mega.parsers.ObjectProcessor;
+import auto.mega.parsers.RequestWebsiteParser;
 import auto.mega.parsers.ObjectProcessor.Identifier;
 
+@Component
 public class AutotraderParser extends RequestWebsiteParser {
+
+  private static final Logger logger = LogManager.getLogger(AutotraderParser.class);
 
   public static final String WEBSITE = "Autotrader";
   public static final int REQUESTS_UNTIL_LONG_WAIT = 3;
@@ -28,6 +36,7 @@ public class AutotraderParser extends RequestWebsiteParser {
 
     /* Setting some vehicle attributes that are already known */
     String adDateScraped = getCurrentDateTime();
+    Long adInstantScraped = getCurrentInstant();
 
     /* Getting search configuration options from file */
     HashMap<String, Object> urlParamsMap = createUrlParamMap(searchOptions);
@@ -39,7 +48,8 @@ public class AutotraderParser extends RequestWebsiteParser {
       
       ArrayList<String> allVehicleModelsForBrand = searchOptions.getVehicleBrandModels().get(vehicleBrand);
       for (String vehicleModel : allVehicleModelsForBrand) {
-        System.out.println("AT --> Parsing vehicles of type: " + vehicleBrand + " " + vehicleModel);
+        logger.info("AT: Parsing vehicles of type: {} {}", vehicleBrand, vehicleModel);
+
         urlParamsMap.put("model", vehicleModel);
 
         /* Constructing URL from configuration paramaters */
@@ -61,9 +71,11 @@ public class AutotraderParser extends RequestWebsiteParser {
         /* Looping through all containers that contain a vehicle */
         Elements adHTMLContainers = doc.select(".result-item");
         adHTMLContainers.stream()
-          .forEach(adHTMLContainer -> allVehicles.add(createVehicle(adHTMLContainer, vehicleBrand, vehicleModel, adDateScraped)));
+          .forEach(adHTMLContainer -> allVehicles.add(createVehicle(adHTMLContainer, vehicleBrand, vehicleModel, adDateScraped, adInstantScraped)));
       }
     }
+
+    logger.info("AT: Done parsing Autotrader");
     return allVehicles;
   }
 
@@ -106,7 +118,7 @@ public class AutotraderParser extends RequestWebsiteParser {
    * @param adDateScraped   the date at which the ad was retrieved
    * @return                the vehicle object populated by the HTML element
   */
-  private Vehicle createVehicle(Element adHTMLContainer, String vehicleBrand, String vehicleModel, String adDateScraped) {
+  private Vehicle createVehicle(Element adHTMLContainer, String vehicleBrand, String vehicleModel, String adDateScraped, Long adInstantScraped) {
     
     /* Getting the link */
     Element adInfoContainer = adHTMLContainer.select(".result-title").first();
@@ -138,6 +150,7 @@ public class AutotraderParser extends RequestWebsiteParser {
       .withYear(adYear)
       .withMileage(adMileage)
       .withDateScraped(adDateScraped)
+      .withInstantScraped(adInstantScraped)
       .withIsPrivateDealer(adIsPrivateDealer)
       .withWebsite(WEBSITE)
       .build();

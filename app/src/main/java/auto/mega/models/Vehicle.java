@@ -1,42 +1,80 @@
 package auto.mega.models;
 
+import java.io.Serializable;
 import java.util.Objects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class Vehicle {
+@Table(name="vehicles")
+@IdClass(Vehicle.class)
+@Entity
+public class Vehicle implements Serializable{
+
+  Vehicle() {}
+
+  @Id
+  @Column(name="id")
+  private String id;
+
+  @Column(name="brand")
   private String brand;
+
+  @Column(name="model")
   private String model;
+  
+  @Column(name="website")
   private String website;
+  
+  @Column(name="date_scraped")
   private String dateScraped;
+  
+  @Column(name="link")
   private String link;
+  
+  @Column(name="is_private_dealer")
   private Boolean isPrivateDealer;
-  private Integer marketValueDifference;
+  
+  @Column(name="instant_scraped")
+  private Long instantScraped;
+  
+  @Column(name="mileage")
   private Integer mileage;
+  
+  @Column(name="price")
   private Integer price;
+
+  @Column(name="year")
   private Integer year;
 
   private Vehicle(Builder builder) {
+    this.id = builder.id;
 		this.brand = builder.brand;
 		this.model = builder.model;
 		this.website = builder.website;
 		this.dateScraped = builder.dateScraped;
 		this.link = builder.link;
     this.isPrivateDealer = builder.isPrivateDealer;
-    this.marketValueDifference = builder.marketValueDifference;
+    this.instantScraped = builder.instantScraped;
     this.mileage = builder.mileage;
     this.price = builder.price;
     this.year = builder.year;
 	}
 
+  public String getId() { return id; }
   public String getBrand() { return brand; }
   public String getModel() { return model; }
   public String getWebsite() { return website; }
   public String getDateScraped() { return dateScraped; }
   public String getLink() { return link; }
   public Boolean getIsPrivateDealer() { return isPrivateDealer; }
-  public Integer getMarketValueDifference() { return marketValueDifference; }
+  public Long getInstantScraped() { return instantScraped; }
   public Integer getMileage() { return mileage; }
   public Integer getYear() { return year; }
   public Integer getPrice() { return price; }
@@ -51,23 +89,24 @@ public class Vehicle {
       websiteShort = "CP";
     }
     String privateDealerString = Boolean.TRUE.equals(isPrivateDealer) ? "PRIV" : "DEAL";
-    return String.format("[%s] %-3s %-6s %-8s $%-7s %-12s %-13s %-6s %-20s %s%n", dateScraped, websiteShort, year, mileage, price, brand, model, privateDealerString, marketValueDifference, link);
+    return String.format("[%s] %-3s %-6s %-8s $%-7s %-12s %-13s %-20s %s%n", dateScraped, websiteShort, year, mileage, price, brand, model, privateDealerString, link);
   }
 
   @Override
   public String toString() {
-    return new ToStringBuilder(this).
-      append("brand", brand).
-      append("model", model).
-      append("website", website).
-      append("dateScraped", dateScraped).
-      append("link", link).
-      append("isPrivateDealer", isPrivateDealer).
-      append("marketValueDifference", marketValueDifference).
-      append("mileage", mileage).
-      append("price", price).
-      append("year", year).
-      toString();
+    return new ToStringBuilder(this)
+      .append("id", id)
+      .append("brand", brand)
+      .append("model", model)
+      .append("website", website)
+      .append("dateScraped", dateScraped)
+      .append("link", link)
+      .append("isPrivateDealer", isPrivateDealer)
+      .append("instantScraped", instantScraped)
+      .append("mileage", mileage)
+      .append("price", price)
+      .append("year", year)
+      .toString();
   }
 
   @Override
@@ -79,34 +118,36 @@ public class Vehicle {
        return false;
     }
     Vehicle that = (Vehicle) o;
-    return new EqualsBuilder().
-      appendSuper(super.equals(o)).
-      append(brand, that.brand).
-      append(model, that.model).
-      append(website, that.website).
-      append(dateScraped, that.dateScraped).
-      append(link, that.link).
-      append(marketValueDifference, that.marketValueDifference).
-      append(isPrivateDealer, that.isPrivateDealer).
-      append(mileage, that.mileage).
-      append(price, that.price).
-      append(year, that.year).
-      isEquals();
+    return new EqualsBuilder()
+      .appendSuper(super.equals(o))
+      .append(id, that.id)
+      .append(brand, that.brand)
+      .append(model, that.model)
+      .append(website, that.website)
+      .append(dateScraped, that.dateScraped)
+      .append(link, that.link)
+      .append(isPrivateDealer, that.isPrivateDealer)
+      .append(instantScraped, instantScraped)
+      .append(mileage, that.mileage)
+      .append(price, that.price)
+      .append(year, that.year)
+      .isEquals();
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(brand, model, website, dateScraped, link, isPrivateDealer, marketValueDifference, mileage, price, year);
+    return Objects.hash(id, brand, model, website, dateScraped, link, isPrivateDealer, instantScraped, mileage, price, year);
   }
 
   public static class Builder {
+    private String id;
     private String brand;
     private String model;
     private String website;
     private String dateScraped;
     private String link;
     private Boolean isPrivateDealer;
-    private Integer marketValueDifference;
+    private Long instantScraped;
     private Integer mileage;
     private Integer price;
     private Integer year;
@@ -117,13 +158,27 @@ public class Vehicle {
     public Builder withDateScraped(String dateScraped) { this.dateScraped = dateScraped;  return this; } 
     public Builder withLink(String link) { this.link = link; return this; }
     public Builder withIsPrivateDealer(Boolean isPrivateDealer) { this.isPrivateDealer = isPrivateDealer; return this; }
-    public Builder withMarketValueDifference(Integer marketValueDifference) { this.marketValueDifference = marketValueDifference; return this; }
+    public Builder withInstantScraped(Long instantScraped) { this.instantScraped = instantScraped; return this; }
     public Builder withMileage(Integer mileage) { this.mileage = mileage; return this; }
     public Builder withPrice(Integer price) { this.price = price; return this; }
     public Builder withYear(Integer year) { this.year = year; return this; }
     
     public Vehicle build() {
+      this.id = this.brand + "-" + this.model + "-" + this.price + "-" + this.year + "-" + this.mileage + "-" + this.instantScraped;
       return new Vehicle(this);
     }
   }
 }
+
+/* Get size of the tables
+
+SELECT
+	table_name AS `Table`,
+	round(((data_length + index_length) / 1024 / 1024), 2) `Size in MB`
+FROM
+	information_schema.TABLES
+WHERE
+	table_schema = 'automegaapi'
+	AND table_name = 'vehicles';
+
+*/

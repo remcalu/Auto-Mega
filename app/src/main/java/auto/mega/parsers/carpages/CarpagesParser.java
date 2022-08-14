@@ -1,4 +1,4 @@
-package auto.mega.parsers;
+package auto.mega.parsers.carpages;
 
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -7,14 +7,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
 
 import auto.mega.models.ConfigOptions;
 import auto.mega.models.Vehicle;
+import auto.mega.parsers.RequestWebsiteParser;
 
+@Component
 public class CarpagesParser extends RequestWebsiteParser {
+
+  private static final Logger logger = LogManager.getLogger(CarpagesParser.class);
 
   public static final String WEBSITE = "Carpages";
   public static final int REQUESTS_UNTIL_LONG_WAIT = 3;
@@ -27,6 +34,7 @@ public class CarpagesParser extends RequestWebsiteParser {
 
     /* Setting some vehicle attributes that are already known */
     String adDateScraped = getCurrentDateTime();
+    Long adInstantScraped = getCurrentInstant();
 
     /* Getting search configuration options from file */
     HashMap<String, Object> urlParamsMap = createUrlParamMap(searchOptions);
@@ -42,7 +50,8 @@ public class CarpagesParser extends RequestWebsiteParser {
 
     Elements adHTMLContainers = new Elements();
     for (int i = 1; i < 10; i++) {
-      System.out.println("CP --> Parsing vehicle page: " + i +  "/" + 9);
+      logger.info("CP: Parsing vehicle page: {}/{}", i, 9);
+
       urlParamsMap.put("pageNum", i);
       String currentURL = urlConstructor(urlParamsMap);
 
@@ -57,8 +66,10 @@ public class CarpagesParser extends RequestWebsiteParser {
     }
 
     for (Element adHTMLContainer : adHTMLContainers) {
-      allVehicles.add(createVehicle(adHTMLContainer, allVehicleBrands, allVehicleModels, adDateScraped));
+      allVehicles.add(createVehicle(adHTMLContainer, allVehicleBrands, allVehicleModels, adDateScraped, adInstantScraped));
     }
+
+    logger.info("Done parsing Carpages");
     return allVehicles;
   }
 
@@ -121,7 +132,7 @@ public class CarpagesParser extends RequestWebsiteParser {
    * @param adDateScraped   the date at which the ad was retrieved
    * @return                the vehicle object populated by the HTML element
   */
-  private Vehicle createVehicle(Element adHTMLContainer, ArrayList<String> allVehicleBrands, ArrayList<String> allVehicleModels, String adDateScraped) {
+  private Vehicle createVehicle(Element adHTMLContainer, ArrayList<String> allVehicleBrands, ArrayList<String> allVehicleModels, String adDateScraped, Long adInstantScraped) {
     
     /* Getting the link */
     Element adInfoContainer = adHTMLContainer.select(".l-column.l-column--large-8").first();
@@ -156,8 +167,8 @@ public class CarpagesParser extends RequestWebsiteParser {
     modelsRegex.append("\\b(");
     modelsRegex.append(String.join("|", allVehicleModels.toArray(new CharSequence[0])));
     modelsRegex.append(")");
-    String modelsRegexString = modelsRegex.toString().replace("mazda6", "mazda 6").replace("mazda3", "mazda 3");
-
+    String modelsRegexString = modelsRegex.toString().replace("mazda 6", "mazda 6|mazda6").replace("mazda 3", "mazda 3|mazda3");
+    
     pattern = Pattern.compile(modelsRegexString, Pattern.CASE_INSENSITIVE);
     matcher = pattern.matcher(adYearBrandModelInfoContainer);
     String adModel = null;
@@ -197,6 +208,7 @@ public class CarpagesParser extends RequestWebsiteParser {
       .withYear(adYear)
       .withMileage(adMileage)
       .withDateScraped(adDateScraped)
+      .withInstantScraped(adInstantScraped)
       .withIsPrivateDealer(adIsPrivateDealer)
       .withWebsite(WEBSITE)
       .build();

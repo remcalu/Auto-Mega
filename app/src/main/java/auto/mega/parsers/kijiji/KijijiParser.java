@@ -1,4 +1,4 @@
-package auto.mega.parsers;
+package auto.mega.parsers.kijiji;
 
 import java.util.Map;
 import java.util.Set;
@@ -8,14 +8,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element; 
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
 
 import auto.mega.models.ConfigOptions;
 import auto.mega.models.Vehicle;
+import auto.mega.parsers.RequestWebsiteParser;
 
+@Component
 public class KijijiParser extends RequestWebsiteParser {
+
+  private static final Logger logger = LogManager.getLogger(KijijiParser.class);
 
   public static final String WEBSITE = "Kijiji";
   public static final int REQUEST_DELAY_TIME_SHORT = 20;
@@ -26,6 +33,7 @@ public class KijijiParser extends RequestWebsiteParser {
 
     /* Setting some vehicle attributes that are already known */
     String adDateScraped = getCurrentDateTime();
+    Long adInstantScraped = getCurrentInstant();
 
     /* Getting search configuration options from file */
     HashMap<String, Object> urlParamsMap = createUrlParamMap(searchOptions);
@@ -37,7 +45,8 @@ public class KijijiParser extends RequestWebsiteParser {
 
       ArrayList<String> allVehicleModelsForBrand = searchOptions.getVehicleBrandModels().get(vehicleBrand);
       for (String vehicleModel : allVehicleModelsForBrand) {
-        System.out.println("KI --> Parsing vehicles of type: " + vehicleBrand + " " + vehicleModel);
+        logger.info("KI: Parsing vehicles of type: {} {}", vehicleBrand, vehicleModel);
+
         urlParamsMap.put("model", vehicleModel);
 
         /* Constructing URL from configuration paramaters */
@@ -58,10 +67,12 @@ public class KijijiParser extends RequestWebsiteParser {
         Elements adHTMLContainers = mainContainer.children();
         adHTMLContainers.removeIf(e -> !e.hasAttr("data-listing-id") || !e.select(".kijiji-autos-logo").isEmpty());
         for (Element adHTMLContainer : adHTMLContainers) {
-          allVehicles.add(createVehicle(adHTMLContainer, vehicleBrand, vehicleModel, adDateScraped));
+          allVehicles.add(createVehicle(adHTMLContainer, vehicleBrand, vehicleModel, adDateScraped, adInstantScraped));
         }
       }
     }
+
+    logger.info("KI: Done parsing Kijiji");
     return allVehicles;
   }
 
@@ -108,7 +119,7 @@ public class KijijiParser extends RequestWebsiteParser {
    * @param adDateScraped   the date at which the ad was retrieved
    * @return                the vehicle object populated by the HTML element
   */
-  private Vehicle createVehicle(Element adHTMLContainer, String vehicleBrand, String vehicleModel, String adDateScraped) {
+  private Vehicle createVehicle(Element adHTMLContainer, String vehicleBrand, String vehicleModel, String adDateScraped, Long adInstantScraped) {
     
     /* Getting the link */
     Element adInfoContainer = adHTMLContainer.select(".info-container").first();
@@ -155,6 +166,7 @@ public class KijijiParser extends RequestWebsiteParser {
       .withYear(adYear)
       .withMileage(adMileage)
       .withDateScraped(adDateScraped)
+      .withInstantScraped(adInstantScraped)
       .withIsPrivateDealer(adIsPrivateDealer)
       .withWebsite(WEBSITE)
       .build();
