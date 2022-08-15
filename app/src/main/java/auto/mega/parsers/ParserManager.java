@@ -76,9 +76,8 @@ public class ParserManager {
     }
   }
 
-  public List<Vehicle> carpagesVehicles() {
+  public List<Vehicle> parseCarpages() {
     List<Vehicle> allVehicles;
-
     try {
       ConfigOptions options = JsonHelper.readConfigFile();
       allVehicles = carpagesParser.parseWebsite(options);
@@ -91,9 +90,8 @@ public class ParserManager {
     }
 	}
 
-  public List<Vehicle> autotraderVehicles() {
+  public List<Vehicle> parseAutotrader() {
     List<Vehicle> allVehicles;
-
     try {
       ConfigOptions options = JsonHelper.readConfigFile();
       allVehicles = autotraderParser.parseWebsite(options);
@@ -106,9 +104,8 @@ public class ParserManager {
     }
 	}
 
-  	public List<Vehicle> kijijiVehicles() {
+  	public List<Vehicle> parseKijiji() {
     List<Vehicle> allVehicles;
-
     try {
       ConfigOptions options = JsonHelper.readConfigFile();
       allVehicles = kijijiParser.parseWebsite(options);

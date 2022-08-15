@@ -37,6 +37,9 @@ public class Vehicle implements Serializable{
   
   @Column(name="link")
   private String link;
+
+  @Column(name="image_link")
+  private String imageLink;
   
   @Column(name="is_private_dealer")
   private Boolean isPrivateDealer;
@@ -60,6 +63,7 @@ public class Vehicle implements Serializable{
 		this.website = builder.website;
 		this.dateScraped = builder.dateScraped;
 		this.link = builder.link;
+    this.imageLink = builder.imageLink;
     this.isPrivateDealer = builder.isPrivateDealer;
     this.instantScraped = builder.instantScraped;
     this.mileage = builder.mileage;
@@ -73,6 +77,7 @@ public class Vehicle implements Serializable{
   public String getWebsite() { return website; }
   public String getDateScraped() { return dateScraped; }
   public String getLink() { return link; }
+  public String getImageLink() { return imageLink; }
   public Boolean getIsPrivateDealer() { return isPrivateDealer; }
   public Long getInstantScraped() { return instantScraped; }
   public Integer getMileage() { return mileage; }
@@ -101,6 +106,7 @@ public class Vehicle implements Serializable{
       .append("website", website)
       .append("dateScraped", dateScraped)
       .append("link", link)
+      .append("imageLink", imageLink)
       .append("isPrivateDealer", isPrivateDealer)
       .append("instantScraped", instantScraped)
       .append("mileage", mileage)
@@ -126,6 +132,7 @@ public class Vehicle implements Serializable{
       .append(website, that.website)
       .append(dateScraped, that.dateScraped)
       .append(link, that.link)
+      .append(imageLink, that.imageLink)
       .append(isPrivateDealer, that.isPrivateDealer)
       .append(instantScraped, instantScraped)
       .append(mileage, that.mileage)
@@ -136,7 +143,7 @@ public class Vehicle implements Serializable{
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, brand, model, website, dateScraped, link, isPrivateDealer, instantScraped, mileage, price, year);
+    return Objects.hash(id, brand, model, website, dateScraped, link, imageLink, isPrivateDealer, instantScraped, mileage, price, year);
   }
 
   public static class Builder {
@@ -146,6 +153,7 @@ public class Vehicle implements Serializable{
     private String website;
     private String dateScraped;
     private String link;
+    private String imageLink;
     private Boolean isPrivateDealer;
     private Long instantScraped;
     private Integer mileage;
@@ -157,6 +165,7 @@ public class Vehicle implements Serializable{
     public Builder withWebsite(String website) { this.website = website; return this; }
     public Builder withDateScraped(String dateScraped) { this.dateScraped = dateScraped;  return this; } 
     public Builder withLink(String link) { this.link = link; return this; }
+    public Builder withImageLink(String imageLink) {this.imageLink = imageLink; return this; }
     public Builder withIsPrivateDealer(Boolean isPrivateDealer) { this.isPrivateDealer = isPrivateDealer; return this; }
     public Builder withInstantScraped(Long instantScraped) { this.instantScraped = instantScraped; return this; }
     public Builder withMileage(Integer mileage) { this.mileage = mileage; return this; }

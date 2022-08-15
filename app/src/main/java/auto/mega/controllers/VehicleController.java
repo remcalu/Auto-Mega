@@ -22,14 +22,15 @@ public class VehicleController {
   @Autowired
   VehicleRepository vehicleRepository;
 
-	@GetMapping("/vehicle")
-  public List<Vehicle> index(){
+	@GetMapping("/api/vehicles")
+  public List<Vehicle> index() {
     return vehicleRepository.findAll();
   }
 
-  @GetMapping("/vehicle/refetch")
-  public boolean refetch(){
-    for(Vehicle vehicle : parserManager.parseAllWebsites()) {
+  @GetMapping("/api/vehicles/refetch")
+  public boolean refetch() {
+    List<Vehicle> allVehicles = parserManager.parseAllWebsites();
+    for (Vehicle vehicle : allVehicles) {
       vehicleRepository.save(vehicle);
     }
     return true;

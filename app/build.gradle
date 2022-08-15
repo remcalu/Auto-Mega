@@ -12,6 +12,8 @@ plugins {
     id "org.springframework.boot" version "2.7.2"
 	id "io.spring.dependency-management" version "1.0.12.RELEASE"
 	id "java"
+    // Apply the nodejs plugin (https://github.com/node-gradle/gradle-node-plugin/)
+    id 'com.github.node-gradle.node' version '3.4.0'
 }
 
 repositories {
@@ -23,13 +25,29 @@ springBoot {
     mainClassName = "auto.mega.Main"
 }
 
-task frontendRun(type: Exec) {
+node {
+    version = '17.5.0'
+    npmVersion = '8.4.1'
+    download = true
+    workDir = file("../.gradle/nodejs")
+    npmWorkDir = file("../.gradle/npm")
+    nodeModulesDir = file("../frontend")
+    nodeProjectDir = file("../frontend")
+}
+
+task frontendRun(type: NpmTask) {
     group 'Frontend'
-    workingDir "frontend"
-    description "Runs the frontend."
-    commandLine "pkill", "-15", "node"
-    commandLine "npm", "install"
-    commandLine "npm", "start"
+    description 'Runs the frontend.'
+    dependsOn 'frontendBuild'
+    npmCommand = ['run', 'start']
+}
+
+task frontendBuild {
+    group 'Frontend'
+    description 'Builds the frontend.'
+    dependsOn 'nodeSetup'
+    dependsOn 'npmSetup'
+    dependsOn 'npmInstall'
 }
 
 task frontendStop(type: Exec) {
@@ -38,16 +56,36 @@ task frontendStop(type: Exec) {
     commandLine "pkill", "-15", "node"
 }
 
-// Task for cleaning all files (used mostly due to node_modules being a large folder)
+task buildAndBootRun {
+    group 'Build'
+    description 'Build and run spring boot.'
+    dependsOn 'build'
+    dependsOn 'bootRun'
+}
+
+// Task for building ever
+task buildAll {
+    group 'Build'
+    description 'Builds all backend and frontend dependencies.'
+    dependsOn 'build'
+    dependsOn 'nodeSetup'
+    dependsOn 'npmSetup'
+    dependsOn 'npmInstall'
+    tasks.findByName('nodeSetup').mustRunAfter 'build'
+    tasks.findByName('npmSetup').mustRunAfter 'nodeSetup'
+    tasks.findByName('npmInstall').mustRunAfter 'npmSetup'
+}
+
+// Task for cleaning all files
 task cleanAll(type: Delete) {
     group 'Build'
     description 'Deletes the build directory, node_modules directory, and .gradle directory.'
+    dependsOn 'clean'
     delete "build"
     delete "frontend/node_modules"
     delete ".gradle"
     delete "bin"
 }
-cleanAll.dependsOn(clean)
 
 dependencies {
     testImplementation "junit:junit:4.13.2"

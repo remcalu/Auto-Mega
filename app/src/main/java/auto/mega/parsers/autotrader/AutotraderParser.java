@@ -71,7 +71,12 @@ public class AutotraderParser extends RequestWebsiteParser {
         /* Looping through all containers that contain a vehicle */
         Elements adHTMLContainers = doc.select(".result-item");
         adHTMLContainers.stream()
-          .forEach(adHTMLContainer -> allVehicles.add(createVehicle(adHTMLContainer, vehicleBrand, vehicleModel, adDateScraped, adInstantScraped)));
+          .forEach(adHTMLContainer -> {
+            Vehicle newVehicle = createVehicle(adHTMLContainer, vehicleBrand, vehicleModel, adDateScraped, adInstantScraped);
+            if (newVehicle != null) {
+              allVehicles.add(newVehicle);
+            }
+          });
       }
     }
 
@@ -119,40 +124,48 @@ public class AutotraderParser extends RequestWebsiteParser {
    * @return                the vehicle object populated by the HTML element
   */
   private Vehicle createVehicle(Element adHTMLContainer, String vehicleBrand, String vehicleModel, String adDateScraped, Long adInstantScraped) {
-    
-    /* Getting the link */
-    Element adInfoContainer = adHTMLContainer.select(".result-title").first();
-    String adLink = "https://www.autotrader.ca" + adInfoContainer.attr("href");
+    try {
+      /* Getting the link */
+      Element adInfoContainer = adHTMLContainer.select(".result-title").first();
+      String adLink = "https://www.autotrader.ca" + adInfoContainer.attr("href");
+      
+      /* Getting the brand */
+      String adBrand = StringUtils.capitalize(vehicleBrand);
 
-    /* Getting the brand */
-    String adBrand = StringUtils.capitalize(vehicleBrand);
+      /* Getting the model */
+      String adModel = StringUtils.capitalize(vehicleModel);
 
-    /* Getting the model */
-    String adModel = StringUtils.capitalize(vehicleModel);
+      /* Getting the price */
+      Integer adPrice = ObjectProcessor.processToInt(Identifier.AT_STR_AD_PRICE, adHTMLContainer.select(".price-amount").first().text());
 
-    /* Getting the price */
-    Integer adPrice = ObjectProcessor.processToInt(Identifier.AT_STR_AD_PRICE, adHTMLContainer.select(".price-amount").first().text());
+      /* Getting the year */
+      Integer adYear = ObjectProcessor.processToInt(Identifier.AT_STR_AD_YEAR, adInfoContainer.text());
+      
+      /* Getting the mileage */
+      Integer adMileage = ObjectProcessor.processToInt(Identifier.AT_STR_AD_MILEAGE, adHTMLContainer.select(".kms").text());
 
-    /* Getting the year */
-    Integer adYear = ObjectProcessor.processToInt(Identifier.AT_STR_AD_YEAR, adInfoContainer.text());
-    
-    /* Getting the mileage */
-    Integer adMileage = ObjectProcessor.processToInt(Identifier.AT_STR_AD_MILEAGE, adHTMLContainer.select(".kms").text());
-
-    /* Getting the dealer type */
-    Boolean adIsPrivateDealer = ObjectProcessor.processToBoolean(Identifier.AT_STR_AD_MILEAGE, adHTMLContainer);
-
-    return new Vehicle.Builder()
-      .withLink(adLink)
-      .withBrand(adBrand)
-      .withModel(adModel)
-      .withPrice(adPrice)
-      .withYear(adYear)
-      .withMileage(adMileage)
-      .withDateScraped(adDateScraped)
-      .withInstantScraped(adInstantScraped)
-      .withIsPrivateDealer(adIsPrivateDealer)
-      .withWebsite(WEBSITE)
-      .build();
+      /* Getting the dealer type */
+      Boolean adIsPrivateDealer = ObjectProcessor.processToBoolean(Identifier.AT_STR_AD_MILEAGE, adHTMLContainer);
+      
+      /* Getting the vehicle image */
+      String adImageLink = getImageUrlFromModel(adModel);
+      
+      return new Vehicle.Builder()
+        .withLink(adLink)
+        .withImageLink(adImageLink)
+        .withBrand(adBrand)
+        .withModel(adModel)
+        .withPrice(adPrice)
+        .withYear(adYear)
+        .withMileage(adMileage)
+        .withDateScraped(adDateScraped)
+        .withInstantScraped(adInstantScraped)
+        .withIsPrivateDealer(adIsPrivateDealer)
+        .withWebsite(WEBSITE)
+        .build();
+    } catch (Exception e) {
+      logger.error("AT: Failed to create a vehicle", e);
+      return null;
+    }
   }
 }

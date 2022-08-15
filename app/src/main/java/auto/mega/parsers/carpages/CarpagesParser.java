@@ -60,16 +60,19 @@ public class CarpagesParser extends RequestWebsiteParser {
       if (doc == null) {
         continue;
       }
-
-      /* Looping through all containers that contain a vehicle */
       adHTMLContainers.addAll(doc.select(".media.soft.push-none"));
     }
 
-    for (Element adHTMLContainer : adHTMLContainers) {
-      allVehicles.add(createVehicle(adHTMLContainer, allVehicleBrands, allVehicleModels, adDateScraped, adInstantScraped));
-    }
+    /* Looping through all containers that contain a vehicle */
+    adHTMLContainers.stream()
+      .forEach(adHTMLContainer -> {
+        Vehicle newVehicle = createVehicle(adHTMLContainer, allVehicleBrands, allVehicleModels, adDateScraped, adInstantScraped);
+        if (newVehicle != null) {
+          allVehicles.add(newVehicle);
+        }
+      });
 
-    logger.info("Done parsing Carpages");
+    logger.info("CP: Done parsing Carpages");
     return allVehicles;
   }
 
@@ -133,84 +136,93 @@ public class CarpagesParser extends RequestWebsiteParser {
    * @return                the vehicle object populated by the HTML element
   */
   private Vehicle createVehicle(Element adHTMLContainer, ArrayList<String> allVehicleBrands, ArrayList<String> allVehicleModels, String adDateScraped, Long adInstantScraped) {
-    
-    /* Getting the link */
-    Element adInfoContainer = adHTMLContainer.select(".l-column.l-column--large-8").first();
-    String adLink = "https://www.carpages.ca/" + adInfoContainer.select("a").attr("href");
+    try {
+      /* Getting the link */
+      Element adInfoContainer = adHTMLContainer.select(".l-column.l-column--large-8").first();
+      String adLink = "https://www.carpages.ca/" + adInfoContainer.select("a").attr("href");
 
-    /* Getting container for year, brand, and model */
-    String adYearBrandModelInfoContainer = adInfoContainer.select("a").attr("title");
+      /* Getting container for year, brand, and model */
+      String adYearBrandModelInfoContainer = adInfoContainer.select("a").attr("title");
 
-    /* Getting the year */
-    Pattern pattern = Pattern.compile("(\\d{4})");
-    Matcher matcher = pattern.matcher(adYearBrandModelInfoContainer);
-    Integer adYear = -1;
-    if (matcher.find()) {
-      adYear = Integer.parseInt(matcher.group());
-    }
-
-    /* Getting the brand */
-    StringBuilder brandsRegex = new StringBuilder();
-    brandsRegex.append("\\b(");
-    brandsRegex.append(String.join("|", allVehicleBrands.toArray(new CharSequence[0])));
-    brandsRegex.append(")");
-
-    pattern = Pattern.compile(brandsRegex.toString(), Pattern.CASE_INSENSITIVE);
-    matcher = pattern.matcher(adYearBrandModelInfoContainer);
-    String adBrand = "";
-    if (matcher.find()) {
-      adBrand = StringUtils.capitalize(matcher.group().toLowerCase());
-    }
-
-    /* Getting the model */
-    StringBuilder modelsRegex = new StringBuilder();
-    modelsRegex.append("\\b(");
-    modelsRegex.append(String.join("|", allVehicleModels.toArray(new CharSequence[0])));
-    modelsRegex.append(")");
-    String modelsRegexString = modelsRegex.toString().replace("mazda 6", "mazda 6|mazda6").replace("mazda 3", "mazda 3|mazda3");
-    
-    pattern = Pattern.compile(modelsRegexString, Pattern.CASE_INSENSITIVE);
-    matcher = pattern.matcher(adYearBrandModelInfoContainer);
-    String adModel = null;
-    if (matcher.find()) {
-      adModel = StringUtils.capitalize(matcher.group().toLowerCase().replace(" ", ""));
-    }
-
-    /* Getting the price */
-    pattern = Pattern.compile("(\\d{1,2}\\,\\d{3})");
-    matcher = pattern.matcher(adInfoContainer.select(".delta").text());
-    Integer adPrice = -1;
-    if (matcher.find()) {
-      adPrice = Integer.parseInt(matcher.group().replace(",", ""));
-    }
-
-    /* Getting the mileage */
-    StringBuilder mileageBuilder = new StringBuilder();
-    Elements mileagePieces = adInfoContainer.select(".l-row.soft-half--top").first().child(1).select(".number");
-    for (Element mileagePiece : mileagePieces) {
-      if (!",".equals(mileagePiece.text())) {
-        mileageBuilder.append(mileagePiece.text());
+      /* Getting the year */
+      Pattern pattern = Pattern.compile("(\\d{4})");
+      Matcher matcher = pattern.matcher(adYearBrandModelInfoContainer);
+      Integer adYear = -1;
+      if (matcher.find()) {
+        adYear = Integer.parseInt(matcher.group());
       }
-    }
-    Integer adMileage = -1;
-    if (!mileageBuilder.toString().isEmpty()) {
-      adMileage = Integer.parseInt(mileageBuilder.toString());
-    }
 
-    /* Getting the dealer type */
-    Boolean adIsPrivateDealer = false;
+      /* Getting the brand */
+      StringBuilder brandsRegex = new StringBuilder();
+      brandsRegex.append("\\b(");
+      brandsRegex.append(String.join("|", allVehicleBrands.toArray(new CharSequence[0])));
+      brandsRegex.append(")");
 
-    return new Vehicle.Builder()
-      .withLink(adLink)
-      .withBrand(adBrand)
-      .withModel(adModel)
-      .withPrice(adPrice)
-      .withYear(adYear)
-      .withMileage(adMileage)
-      .withDateScraped(adDateScraped)
-      .withInstantScraped(adInstantScraped)
-      .withIsPrivateDealer(adIsPrivateDealer)
-      .withWebsite(WEBSITE)
-      .build();
+      pattern = Pattern.compile(brandsRegex.toString(), Pattern.CASE_INSENSITIVE);
+      matcher = pattern.matcher(adYearBrandModelInfoContainer);
+      String adBrand = "";
+      if (matcher.find()) {
+        adBrand = StringUtils.capitalize(matcher.group().toLowerCase());
+      }
+
+      /* Getting the model */
+      StringBuilder modelsRegex = new StringBuilder();
+      modelsRegex.append("\\b(");
+      modelsRegex.append(String.join("|", allVehicleModels.toArray(new CharSequence[0])));
+      modelsRegex.append(")");
+      String modelsRegexString = modelsRegex.toString().replace("mazda 6", "mazda 6|mazda6").replace("mazda 3", "mazda 3|mazda3");
+      
+      pattern = Pattern.compile(modelsRegexString, Pattern.CASE_INSENSITIVE);
+      matcher = pattern.matcher(adYearBrandModelInfoContainer);
+      String adModel = null;
+      if (matcher.find()) {
+        adModel = StringUtils.capitalize(matcher.group().toLowerCase().replace(" ", ""));
+        adModel = adModel.replace("Mazda3", "Mazda 3").replace("Mazda6", "Mazda 6");
+      }
+
+      /* Getting the price */
+      pattern = Pattern.compile("(\\d{1,2}\\,\\d{3})");
+      matcher = pattern.matcher(adInfoContainer.select(".delta").text());
+      Integer adPrice = -1;
+      if (matcher.find()) {
+        adPrice = Integer.parseInt(matcher.group().replace(",", ""));
+      }
+
+      /* Getting the mileage */
+      StringBuilder mileageBuilder = new StringBuilder();
+      Elements mileagePieces = adInfoContainer.select(".l-row.soft-half--top").first().child(1).select(".number");
+      for (Element mileagePiece : mileagePieces) {
+        if (!",".equals(mileagePiece.text())) {
+          mileageBuilder.append(mileagePiece.text());
+        }
+      }
+      Integer adMileage = -1;
+      if (!mileageBuilder.toString().isEmpty()) {
+        adMileage = Integer.parseInt(mileageBuilder.toString());
+      }
+
+      /* Getting the dealer type */
+      Boolean adIsPrivateDealer = false;
+
+      /* Getting the vehicle image */
+      String adImageLink = getImageUrlFromModel(adModel);
+
+      return new Vehicle.Builder()
+        .withLink(adLink)
+        .withImageLink(adImageLink)
+        .withBrand(adBrand)
+        .withModel(adModel)
+        .withPrice(adPrice)
+        .withYear(adYear)
+        .withMileage(adMileage)
+        .withDateScraped(adDateScraped)
+        .withInstantScraped(adInstantScraped)
+        .withIsPrivateDealer(adIsPrivateDealer)
+        .withWebsite(WEBSITE)
+        .build();
+    } catch (Exception e) {
+      logger.error("AT: Failed to create a vehicle", e);
+      return null;
+    }
   }
 }
