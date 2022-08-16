@@ -1,44 +1,29 @@
 import './RefetchVehiclesButton.css';
-import { LoadingButton, LoadingButtonProps } from '@mui/lab';
 import { Refresh } from '@mui/icons-material';
-import { styled } from '@mui/material';
 import { useState } from 'react';
 import { refetchAllVehicles } from '../../util/VehicleService';
-import { blue, grey } from '@material-ui/core/colors';
-
-const StyledLoadingButton = styled(LoadingButton)<LoadingButtonProps>(() => ({
-  ':disabled': {
-    color: grey[300],
-    backgroundColor: blue[900],
-  },
-}));
+import { CustomLoadingButton } from '../StyledMuiComponents/CustomButtons/CustomLoadingButton/CustomLoadingButton';
+import { Box } from '@mui/material';
 
 export default function RefetchVehiclesButton() {
   const [fetching, setfetching] = useState<boolean>();
   
-  async function fetchData() {
-    return refetchAllVehicles();
-  }
-
   const handleClick = async() => {
     setfetching(true);
-    console.log("TEST");
-    await fetchData().then(() => setfetching(false));
+    await refetchAllVehicles().then(() => setfetching(false));
   }
 
   return (
-    <div>
-      {
-        <StyledLoadingButton
-          onClick={handleClick}
-          loading={fetching}
-          loadingPosition="start"
-          variant="contained"
-          startIcon={<Refresh/>}
-        >
-          {fetching ? "Fetch in progress" : "Refetch vehicles"}
-        </StyledLoadingButton>
-      }
-    </div>
+    <Box>
+      <CustomLoadingButton
+        onClick={handleClick}
+        loading={fetching}
+        loadingPosition="start"
+        variant="contained"
+        startIcon={<Refresh/>}
+      >
+        {fetching ? "Fetch in progress" : "Refetch vehicles"}
+      </CustomLoadingButton>
+    </Box>
   );
 }

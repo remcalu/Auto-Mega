@@ -6,16 +6,11 @@
   min-height: 100vh;
   font-size: calc(8px + 2vmin);
   color: white;
-  padding-top: 5vh;
+  padding-top: 3vh;
   padding-bottom: 5vh;
-  padding-left: 10vw;
-  padding-right: 10vw;
 }
 
 .VehicleGalleryView-grid {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
   justify-content: center;
 }
 

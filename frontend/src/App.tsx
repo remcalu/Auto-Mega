@@ -1,15 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import VehicleGalleryView from './components/VehicleGalleryView/VehicleGalleryView';
 import './App.css';
-import RefetchVehiclesButton from './components/RefetchVehiclesButton/RefetchVehiclesButton';
+import { Box, Divider, Stack, StyledEngineProvider } from '@mui/material';
+import VehicleViewContainer from './components/VehicleViewContainer/VehicleViewContainer';
+import FilterOptionsContainer from './components/FilterOptionsContainer/FilterOptionsContainer';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <RefetchVehiclesButton/>
-        <VehicleGalleryView/>
+        <StyledEngineProvider injectFirst>
+          <Box className="App-container">
+            {/* <RefetchVehiclesButton/> */}
+            <Divider orientation="horizontal"/>
+            <Stack direction="row" divider={<Divider orientation="vertical" flexItem />}>
+              <FilterOptionsContainer/>
+              <VehicleViewContainer/>
+            </Stack>
+          </Box>
+        </StyledEngineProvider>
       </header>
     </div>
   );
