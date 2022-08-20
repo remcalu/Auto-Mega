@@ -1,0 +1,40 @@
+.GalleryView {
+  text-align: center;
+}
+
+.GalleryView-body {
+  min-height: 100vh;
+  font-size: calc(8px + 2vmin);
+  color: white;
+  padding-top: 3vh;
+  padding-bottom: 5vh;
+}
+
+.GalleryView-grid {
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-moz-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-webkit-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-o-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-ms-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}

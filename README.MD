@@ -17,7 +17,7 @@
 | Hyundai Veloster | ✅          | ✅        | ✅      |
 | Hyundai Venue    | ✅          | ✅        | ✅      |
 | Mazda 3          | ✅          | ✅        | ✅      |
-| Mazda 3          | ✅          | ✅        | ✅      |
+| Mazda 6          | ✅          | ✅        | ✅      |
 | Nissan Altima    | ✅          | ✅        | ✅      |
 | Nissan Maxima    | ✅          | ✅        | ✅      |
 | Nissan Sentra    | ✅          | ✅        | ✅      |

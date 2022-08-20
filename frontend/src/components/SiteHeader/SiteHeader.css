@@ -1,0 +1,15 @@
+.SiteHeader {
+  width: 100%;
+}
+
+.SiteHeader-body {
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 7% 0 7%;
+}
+
+.SiteHeader-button {
+  font-size: 20px;
+  color: white;
+}

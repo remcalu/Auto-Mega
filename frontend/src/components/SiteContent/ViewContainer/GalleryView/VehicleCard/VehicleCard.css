@@ -1,0 +1,27 @@
+.VehicleCard {
+  padding: 0;
+  width: 215px;
+}
+
+.VehicleCard-image {
+  height: 100px;
+}
+
+.VehicleCard-content {
+  padding-top: 8px; 
+  padding-bottom: 8px !important;
+}
+
+.VehicleCard-content-info {
+  padding: 0;
+  width: 100%;
+  max-width: 360px;
+}
+
+.VehicleCard-content-info-icon {
+  font-size: 15px;
+}
+
+.VehicleCard-content-info-text {
+  margin: 0;
+}

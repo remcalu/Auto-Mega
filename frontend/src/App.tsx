@@ -1,25 +1,28 @@
 import './App.css';
-import { Box, Divider, Stack, StyledEngineProvider } from '@mui/material';
-import VehicleViewContainer from './components/VehicleViewContainer/VehicleViewContainer';
-import FilterOptionsContainer from './components/FilterOptionsContainer/FilterOptionsContainer';
+import { Box, createMuiTheme, StyledEngineProvider, ThemeProvider } from '@mui/material';
+import { cyan } from '@mui/material/colors';
+import SiteHeader from './components/SiteHeader/SiteHeader';
+import SiteContent from './components/SiteContent/SiteContent';
 
-function App() {
+const theme = createMuiTheme({
+  palette: {
+    primary: { 
+      main: cyan[700],
+      light: cyan[600],
+      dark: cyan[800]
+    },
+  }
+});
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <StyledEngineProvider injectFirst>
-          <Box className="App-container">
-            {/* <RefetchVehiclesButton/> */}
-            <Divider orientation="horizontal"/>
-            <Stack direction="row" divider={<Divider orientation="vertical" flexItem />}>
-              <FilterOptionsContainer/>
-              <VehicleViewContainer/>
-            </Stack>
-          </Box>
-        </StyledEngineProvider>
-      </header>
-    </div>
+    <Box className="App">
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <SiteHeader/>
+          <SiteContent/>
+        </ThemeProvider>
+      </StyledEngineProvider>
+    </Box>
   );
 }
-
-export default App;

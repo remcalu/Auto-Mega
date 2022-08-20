@@ -56,7 +56,7 @@ task frontendStop(type: Exec) {
     commandLine "pkill", "-15", "node"
 }
 
-task buildAndBootRun {
+task backendRun {
     group 'Build'
     description 'Build and run spring boot.'
     dependsOn 'build'
