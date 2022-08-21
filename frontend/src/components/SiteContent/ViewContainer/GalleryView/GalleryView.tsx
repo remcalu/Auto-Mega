@@ -1,18 +1,11 @@
-import React, { useEffect, useState } from 'react';
 import './GalleryView.css';
-import { getAllVehicles } from '../../../../util/VehicleService';
-import Vehicle from '../../../../types/Vehicle';
 import VehicleCard from './VehicleCard/VehicleCard';
 import { Grid } from '@mui/material';
+import { useAppSelector } from '../../../../redux/hooks';
+import { RootState } from '../../../../redux/store';
 
 function GalleryView() {
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-  useEffect(() => {
-    async function fetchData() {
-      return getAllVehicles();
-    }
-    fetchData().then(e => setVehicles(e as Array<Vehicle>))
-  }, []);
+  const vehicles = useAppSelector((state: RootState) => state.vehicles.vehicles);
   
   return (
     <div className="GalleryView-body">

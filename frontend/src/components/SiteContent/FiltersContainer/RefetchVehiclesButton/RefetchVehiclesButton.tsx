@@ -16,6 +16,7 @@ export default function RefetchVehiclesButton() {
   return (
     <Box>
       <CustomLoadingButton
+        type='submit'
         onClick={handleClick}
         loading={fetching}
         loadingPosition="start"

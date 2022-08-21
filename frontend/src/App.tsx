@@ -3,6 +3,8 @@ import { Box, createMuiTheme, StyledEngineProvider, ThemeProvider } from '@mui/m
 import { cyan } from '@mui/material/colors';
 import SiteHeader from './components/SiteHeader/SiteHeader';
 import SiteContent from './components/SiteContent/SiteContent';
+import { useAppDispatch } from './redux/hooks';
+import { fetchNumVehicles, fetchVehicles } from './redux/reducers/vehiclesSlice';
 
 const theme = createMuiTheme({
   palette: {
@@ -15,6 +17,9 @@ const theme = createMuiTheme({
 });
 
 export default function App() {
+  fetchNumVehicles(useAppDispatch());
+  fetchVehicles(useAppDispatch());
+  
   return (
     <Box className="App">
       <StyledEngineProvider injectFirst>

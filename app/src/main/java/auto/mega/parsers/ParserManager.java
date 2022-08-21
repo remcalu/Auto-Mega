@@ -67,6 +67,8 @@ public class ParserManager {
         allVehicles.add((Vehicle) x);
       }
 
+      allVehicles = (ArrayList<Vehicle>) VehicleListHelper.dedupeVehicleList(allVehicles);
+      allVehicles = (ArrayList<Vehicle>) VehicleListHelper.sortVehicleList(allVehicles);
       return allVehicles;
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();

@@ -7,6 +7,15 @@ export async function getAllVehicles() {
   }
 }
 
+export async function getVehicleCount() {
+  try {
+    const response = await fetch('/api/vehicles/count');
+    return await response.json();
+  } catch(error) {
+    return [];
+  }
+}
+
 export async function refetchAllVehicles() {
   try {
     const response = await fetch('/api/vehicles/refetch');

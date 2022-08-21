@@ -23,8 +23,13 @@ public class VehicleController {
   VehicleRepository vehicleRepository;
 
 	@GetMapping("/api/vehicles")
-  public List<Vehicle> index() {
+  public List<Vehicle> vehicles() {
     return vehicleRepository.findAll();
+  }
+
+  @GetMapping("/api/vehicles/count")
+  public int count() {
+    return vehicleRepository.findAll().size();
   }
 
   @GetMapping("/api/vehicles/refetch")
