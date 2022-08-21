@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import vehiclesReducer from './reducers/vehiclesSlice';
+import viewsReducer from './reducers/viewsSlice';
 
 const store = configureStore({
   reducer: {
-    vehicles: vehiclesReducer
+    vehicles: vehiclesReducer,
+    views: viewsReducer
   },
 });
 

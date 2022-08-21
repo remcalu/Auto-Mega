@@ -13,10 +13,10 @@ export default function SiteHeader() {
                 </Typography>
             </Stack>
             <Stack direction="row" spacing={4}>
-              <Link className="SiteHeader-button" rel="noopener noreferrer" href="https://www.autotrader.ca/">Autotrader</Link>
-              <Link className="SiteHeader-button" rel="noopener noreferrer" href="https://www.carpages.ca/">Carpages</Link>
-              <Link className="SiteHeader-button" rel="noopener noreferrer" href="https://www.kijiji.ca/b-cars-trucks/ontario/c174l9004">Kijiji</Link>
-              <Link className="SiteHeader-button" rel="noopener noreferrer" href="https://remcalu.github.io/Personal-Website/#/">Site Creator</Link>
+              <Link className="SiteHeader-button" rel="noopener noreferrer" target="_blank" href="https://www.autotrader.ca/">Autotrader</Link>
+              <Link className="SiteHeader-button" rel="noopener noreferrer" target="_blank" href="https://www.carpages.ca/">Carpages</Link>
+              <Link className="SiteHeader-button" rel="noopener noreferrer" target="_blank" href="https://www.kijiji.ca/b-cars-trucks/ontario/c174l9004">Kijiji</Link>
+              <Link className="SiteHeader-button" rel="noopener noreferrer" target="_blank" href="https://remcalu.github.io/Personal-Website/#/">Site Creator</Link>
             </Stack>
           </Stack>
         </Toolbar>

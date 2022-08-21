@@ -49,7 +49,7 @@ export default function VehicleCard(props : IProps) {
               </Stack>
             </ListItem>
           </List>
-          <Button variant="text" rel="noopener noreferrer" href={props.vehicle.link} size="small">View Ad</Button>
+          <Button variant="text" rel="noopener noreferrer" target="_blank" href={props.vehicle.link} size="small">View Ad</Button>
         </CardContent>
       </Card>
     </Box>

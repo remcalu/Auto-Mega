@@ -1,11 +1,15 @@
 import { ViewList, ViewModule } from '@mui/icons-material';
 import { ToggleButtonGroup} from '@mui/material';
 import { useState } from 'react';
+import { useAppDispatch } from '../../../../redux/hooks';
+import { setIsGallery } from '../../../../redux/reducers/viewsSlice';
 import { CustomToggleButton } from '../../../StyledMuiComponents/CustomButtons/CustomToggleButton/CustomToggleButton';
 import './ViewOptions.css';
 
 export default function ViewOptions() {
   const [alignment, setAlignment] = useState('left');
+
+  const dispatch = useAppDispatch();
 
   const handleAlignment = (
     _event: React.MouseEvent<HTMLElement>,
@@ -13,6 +17,11 @@ export default function ViewOptions() {
   ) => {
     if (newAlignment !== null) {
       setAlignment(newAlignment);
+      if (newAlignment === "left") {
+        dispatch(setIsGallery(true))
+      } else {
+        dispatch(setIsGallery(false))
+      }
     }
   };
 

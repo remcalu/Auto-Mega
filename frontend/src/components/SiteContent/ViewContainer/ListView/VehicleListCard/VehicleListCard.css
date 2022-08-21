@@ -1,0 +1,11 @@
+.VehicleListCard {
+  margin: 2px;
+  padding: 1px;
+}
+
+.VehicleListCard:hover {
+  background-color: #e0f7fa;
+}
+.VehicleListCard-content {
+  padding: 1px !important;
+}
