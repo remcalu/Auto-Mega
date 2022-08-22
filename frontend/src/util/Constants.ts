@@ -1,3 +1,8 @@
+export const INITIAL_MAX_PRICE = 8000;
+export const INITIAL_MAX_MILEAGE = 150000;
+export const INITIAL_MIN_YEAR = 2010;
+export const INITIAL_DISTANCE = 100;
+
 export const ALL_SUPPORTED_VEHICLES = [
   'Toyota Corolla',
   'Toyota Camry',

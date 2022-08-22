@@ -86,7 +86,7 @@ public class CarpagesParser extends RequestWebsiteParser {
     int minYear = (int) params.get("minYear");
     int maxPrice = (int) params.get("maxPrice");
     int maxMileage = (int) params.get("maxMileage");
-    int distanceFromPostalCode = (int) params.get("distanceFromPostalCode");
+    int distance = (int) params.get("distance");
     int pageNum = (int) params.get("pageNum");
     String transmission = (String) params.get("transmission");
 
@@ -126,7 +126,7 @@ public class CarpagesParser extends RequestWebsiteParser {
       brandsString + "&model_name=" + 
       modelsString + 
       transmissionStr + "&search_radius=" + 
-      distanceFromPostalCode + "&with_prices_only=1&ll=" + "43.415281000000000" + "," + "-80.473944000000000"  + "&p=" + 
+      distance + "&with_prices_only=1&ll=" + "43.415281000000000" + "," + "-80.473944000000000"  + "&p=" + 
       pageNum;
   }
 

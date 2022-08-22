@@ -29,12 +29,10 @@ public class ParserManager {
   @Autowired
   KijijiParser kijijiParser;
 
-  public List<Vehicle> parseAllWebsites() {
+  public List<Vehicle> parseAllWebsites(ConfigOptions options) {
     ArrayList<Vehicle> allVehicles = new ArrayList<>();
 
     try {
-      ConfigOptions options = JsonHelper.readConfigFile();
-
       CompletableFuture<Object> completableFuture = 
         CompletableFuture.supplyAsync(() -> {
           try {

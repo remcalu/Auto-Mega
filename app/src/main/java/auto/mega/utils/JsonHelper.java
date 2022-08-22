@@ -117,7 +117,7 @@ public class JsonHelper {
       withMinYear(optionsJsonObj.get("minYear").getAsInt()).
       withMaxPrice(optionsJsonObj.get("maxPrice").getAsInt()).
       withMaxMileage(optionsJsonObj.get("maxMileage").getAsInt()).
-      withDistanceFromPostalCode(optionsJsonObj.get("distanceFromPostalCode").getAsInt()).
+      withDistance(optionsJsonObj.get("distance").getAsInt()).
       withPostalCode(optionsJsonObj.get("postalCode").getAsString()).
       withTransmission(optionsJsonObj.get("transmission").getAsString()).
       withIncludePrivateDealers(optionsJsonObj.get("includePrivateDealers").getAsBoolean()).

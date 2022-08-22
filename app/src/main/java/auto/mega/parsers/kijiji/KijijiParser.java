@@ -91,7 +91,7 @@ public class KijijiParser extends RequestWebsiteParser {
     Integer minYear = (Integer) params.get("minYear");
     Integer maxPrice = (Integer) params.get("maxPrice");
     Integer maxMileage = (Integer) params.get("maxMileage");
-    Integer distanceFromPostalCode = (Integer) params.get("distanceFromPostalCode");
+    Integer distance = (Integer) params.get("distance");
     String postalCode = (String) params.get("postalCode");
     String transmission = (String) params.get("transmission");
     Boolean includePrivateDealers = (Boolean) params.get("includePrivateDealers");
@@ -112,7 +112,7 @@ public class KijijiParser extends RequestWebsiteParser {
       postalCode + "&ad=offering&price=2000__" + 
       maxPrice + "&kilometers=1000__" + 
       maxMileage + "&radius=" + 
-      distanceFromPostalCode +
+      distance +
       transmissionStr +
       privateDealer;
   }

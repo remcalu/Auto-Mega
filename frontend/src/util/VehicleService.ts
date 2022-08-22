@@ -1,3 +1,5 @@
+import FetchOptions from "../types/FetchOptions";
+
 export async function getAllVehicles() {
   try {
     const response = await fetch('/api/vehicles');
@@ -16,9 +18,22 @@ export async function getVehicleCount() {
   }
 }
 
-export async function refetchAllVehicles() {
+export async function refetchAllVehicles(fetchOptions: FetchOptions) {
   try {
-    const response = await fetch('/api/vehicles/refetch');
+    const response = await fetch('/api/vehicles/refetch', {
+      method: "POST",
+      body: JSON.stringify({
+          postalCode: fetchOptions.postalCode,
+          distance: fetchOptions.distance,
+          vehicles: fetchOptions.vehicles,
+          transmission: fetchOptions.transmission,
+          vendorType: fetchOptions.vendorType,
+          maxPrice: fetchOptions.maxPrice,
+          maxMileage: fetchOptions.maxMileage,
+          minYear: fetchOptions.minYear,
+          
+      }),
+    });
     return await response.json();
   } catch(error) {
     return [];

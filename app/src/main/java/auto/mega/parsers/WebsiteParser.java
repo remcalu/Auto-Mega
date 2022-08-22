@@ -26,7 +26,7 @@ public abstract class WebsiteParser {
       urlParamMap.put("minYear", searchOptions.getMinYear());
       urlParamMap.put("maxPrice", searchOptions.getMaxPrice());
       urlParamMap.put("maxMileage", searchOptions.getMaxMileage());
-      urlParamMap.put("distanceFromPostalCode", searchOptions.getDistanceFromPostalCode());
+      urlParamMap.put("distance", searchOptions.getdistance());
       urlParamMap.put("postalCode", searchOptions.getPostalCode());
       urlParamMap.put("transmission", searchOptions.getTransmission());
       urlParamMap.put("includePrivateDealers", searchOptions.getIncludePrivateDealers());

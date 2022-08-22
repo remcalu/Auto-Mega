@@ -24,12 +24,11 @@
     {"nissan" : ["altima", "maxima", "sentra", "versa"]},
     {"lexus" : ["is", "es"]}
   ],
-  "distanceFromPostalCode" : 500,
+  "distance" : 500,
   "postalCode" : "N2E1P6",
   "maxMileage" : 150000,
   "maxPrice" : 13000,
   "minYear" : 2015,
-  "belowThreshold" : 10.0,
   "includePrivateDealers" : true,
   "transmission" : "Automatic"
 }

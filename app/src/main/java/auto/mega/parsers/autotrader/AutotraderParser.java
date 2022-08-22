@@ -94,7 +94,7 @@ public class AutotraderParser extends RequestWebsiteParser {
     Integer minYear = (Integer) params.get("minYear");
     Integer maxPrice = (Integer) params.get("maxPrice");
     Integer maxMileage = (Integer) params.get("maxMileage");
-    Integer distanceFromPostalCode = (Integer) params.get("distanceFromPostalCode");
+    Integer distance = (Integer) params.get("distance");
     String postalCode = (String) params.get("postalCode");
     String transmission = (String) params.get("transmission");
     Boolean includePrivateDealers = (Boolean) params.get("includePrivateDealers");
@@ -110,7 +110,7 @@ public class AutotraderParser extends RequestWebsiteParser {
       minYear + "%2C&pRng=%2C" + 
       maxPrice + "&oRng=%2C" + 
       maxMileage + "&prx=" + 
-      distanceFromPostalCode + "&loc=" + 
+      distance + "&loc=" + 
       postalCode + "&trans=" + 
       transmission + "%2COther%2FDon%27t%20Know&hprc=True&wcp=True&sts=New-Used" + 
       privateDealer + "&inMarket=advancedSearch";

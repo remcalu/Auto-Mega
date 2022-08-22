@@ -2,10 +2,10 @@ import './GalleryView.css';
 import VehicleCard from './VehicleCard/VehicleCard';
 import { Box, Grid } from '@mui/material';
 import { useAppSelector } from '../../../../redux/hooks';
-import { RootState } from '../../../../redux/store';
+import { selectVehicles } from '../../../../redux/reducers/vehiclesSlice';
 
 export default function GalleryView() {
-  const vehicles = useAppSelector((state: RootState) => state.vehicles.vehicles);
+  const vehicles = useAppSelector(selectVehicles);
   
   return (
     <Box className="GalleryView-body">
