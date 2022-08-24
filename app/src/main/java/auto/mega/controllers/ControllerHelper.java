@@ -15,6 +15,54 @@ public class ControllerHelper {
   
   private ControllerHelper() {}
 
+  public static String verifyConfigOptionsRequest(String requestJsonString) {
+    Gson gson = new Gson();
+    JsonObject configOptionsJson = gson.fromJson(requestJsonString, JsonObject.class);
+    
+    StringBuilder errors = new StringBuilder();
+    String postalCode = configOptionsJson.get("postalCode").getAsString();
+    if (!postalCode.matches("^[A-Za-z]\\d[A-Za-z][ -]?\\d[A-Za-z]\\d$")) {
+      if (errors.toString().isBlank()) {
+        errors.append("ERROR: ");
+      } else {
+        errors.append(", ");
+      }
+      errors.append("Invalid postal code");
+    }
+
+    JsonArray vehiclesArray = configOptionsJson.get("vehicles").getAsJsonArray();
+    if (vehiclesArray.isEmpty()) {
+      if (errors.toString().isBlank()) {
+        errors.append("ERROR: ");
+      } else {
+        errors.append(", ");
+      }
+      errors.append("Choose at least one vehicle");
+    }
+
+    JsonArray vendorTypeArray = configOptionsJson.get("vendorType").getAsJsonArray();
+    if (vendorTypeArray.isEmpty()) {
+      if (errors.toString().isBlank()) {
+        errors.append("ERROR: ");
+      } else {
+        errors.append(", ");
+      }
+      errors.append("Choose at least one vendor type");
+    }
+
+    JsonArray transmissionArray = configOptionsJson.get("transmission").getAsJsonArray();
+    if (transmissionArray.isEmpty()) {
+      if (errors.toString().isBlank()) {
+        errors.append("ERROR: ");
+      } else {
+        errors.append(", ");
+      }
+      errors.append("Choose at least one vendor transmission type");
+    }
+
+    return errors.toString();
+  }
+
   public static ConfigOptions getConfigOptionsFromRequest(String requestJsonString) {
     Gson gson = new Gson();
     JsonObject configOptionsJson = gson.fromJson(requestJsonString, JsonObject.class);

@@ -25,7 +25,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "PORT=8081 react-scripts start",
+    "start": "PORT=8081 react-scripts --max_old_space_size=8128 start",
     "build": "PORT=8081 react-scripts build",
     "test": "PORT=8081 react-scripts test",
     "eject": "PORT=8081 react-scripts eject"

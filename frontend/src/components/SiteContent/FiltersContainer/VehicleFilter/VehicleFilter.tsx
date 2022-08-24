@@ -1,6 +1,6 @@
 import { Box, Stack, Typography } from '@mui/material';
 import { setMaxMileage, setMaxPrice, setMinYear, setTransmission, setVehicles, setVendorType } from '../../../../redux/reducers/filterFormSlice';
-import { ALL_SUPPORTED_VEHICLES, TRANSMISSION_TYPES, VENDOR_TYPES, PRICE_SLIDER_MARKS, MILEAGE_SLIDER_MARKS, MIN_YEAR_MARKS, INITIAL_MAX_PRICE, INITIAL_MAX_MILEAGE, INITIAL_MIN_YEAR } from '../../../../util/Constants';
+import { ALL_SUPPORTED_VEHICLES, TRANSMISSION_TYPES, VENDOR_TYPES, PRICE_SLIDER_MARKS, MILEAGE_SLIDER_MARKS, MIN_YEAR_MARKS, INITIAL_MAX_PRICE, INITIAL_MAX_MILEAGE, INITIAL_MIN_YEAR, INITIAL_VENDOR_TYPES, INITIAL_TRANSMISSION_TYPES, INITIAL_ALL_SUPPORTED_VEHICLES } from '../../../../util/Constants';
 import InputSlider from '../InputSlider/InputSlider';
 import MultiSelect from './MultiSelect/MultiSelect';
 
@@ -11,16 +11,19 @@ export default function VehicleFilter() {
         <Typography align="left" color="black" variant="h5">Vehicle specs</Typography>
         <MultiSelect 
           updateStateReducer={setVehicles}
+          defaultValues={INITIAL_ALL_SUPPORTED_VEHICLES}
           selectOptions={ALL_SUPPORTED_VEHICLES} 
           label={"Vehicles"}        
         />
         <MultiSelect 
           updateStateReducer={setTransmission}
+          defaultValues={INITIAL_TRANSMISSION_TYPES}
           selectOptions={TRANSMISSION_TYPES} 
           label={"Transmission"}        
         />
         <MultiSelect 
           updateStateReducer={setVendorType}
+          defaultValues={INITIAL_VENDOR_TYPES}
           selectOptions={VENDOR_TYPES} 
           label={"Vendor type"}        
         />

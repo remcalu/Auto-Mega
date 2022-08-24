@@ -3,6 +3,12 @@ export const INITIAL_MAX_MILEAGE = 150000;
 export const INITIAL_MIN_YEAR = 2010;
 export const INITIAL_DISTANCE = 100;
 
+export const INITIAL_POSTAL_CODE = 'N2E1P6';
+
+export const INITIAL_ALL_SUPPORTED_VEHICLES = [
+  'Toyota Corolla',
+  'Honda Civic'
+]
 export const ALL_SUPPORTED_VEHICLES = [
   'Toyota Corolla',
   'Toyota Camry',
@@ -29,14 +35,20 @@ export const ALL_SUPPORTED_VEHICLES = [
   'Lexus Es',
 ];
 
-export const TRANSMISSION_TYPES = [
-  'Manual',
+export const INITIAL_TRANSMISSION_TYPES = [
   'Automatic'
+]
+
+export const TRANSMISSION_TYPES = [
+  'Automatic'
+]
+
+export const INITIAL_VENDOR_TYPES = [
+  'Dealership'
 ]
 
 export const VENDOR_TYPES = [
   'Dealership',
-  'Private'
 ]
 
 export const DISTANCE_SLIDER_MARKS = [

@@ -7,12 +7,12 @@ interface IProps {
   selectOptions: Array<string>,
   label: string,
   updateStateReducer: ActionCreatorWithPayload<string[]>,
+  defaultValues: Array<string>
 }
 
 
 export default function MultiSelect(props: IProps) {
   const [selectOptionValue, setSelectOptionValue] = useState<string[]>([]);
-
   const dispatch = useAppDispatch();
   
   function updateState(e: SelectChangeEvent<typeof selectOptionValue>) {
@@ -33,6 +33,7 @@ export default function MultiSelect(props: IProps) {
           <Select
             labelId="demo-multiple-checkbox-label"
             multiple
+            defaultValue={props.defaultValues}
             value={selectOptionValue}
             onChange={updateState}
             input={<OutlinedInput label={props.label} />}

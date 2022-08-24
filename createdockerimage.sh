@@ -1,0 +1,1 @@
+sudo docker run -u root -d -p 80:8081 --name automega-image automega

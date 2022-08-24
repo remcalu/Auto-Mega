@@ -5,6 +5,7 @@ export async function getAllVehicles() {
     const response = await fetch('/api/vehicles');
     return await response.json();
   } catch(error) {
+    console.error(error);
     return [];
   }
 }
@@ -14,6 +15,7 @@ export async function getVehicleCount() {
     const response = await fetch('/api/vehicles/count');
     return await response.json();
   } catch(error) {
+    console.error(error);
     return [];
   }
 }
@@ -36,6 +38,17 @@ export async function refetchAllVehicles(fetchOptions: FetchOptions) {
     });
     return await response.json();
   } catch(error) {
+    console.error(error);
+    return [];
+  }
+}
+
+export async function clearAllVehicles() {
+  try {
+    const response = await fetch('/api/vehicles/clear');
+    return await response.json();
+  } catch(error) {
+    console.error(error);
     return [];
   }
 }

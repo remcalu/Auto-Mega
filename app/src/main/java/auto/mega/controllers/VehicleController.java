@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import auto.mega.models.ConfigOptions;
 import auto.mega.models.Vehicle;
@@ -38,18 +37,31 @@ public class VehicleController {
     return vehicleRepository.findAll().size();
   }
 
-  @PostMapping("/api/vehicles/refetch")
-  public boolean refetch(@RequestBody String request) {
+  @GetMapping("/api/vehicles/clear")
+  public boolean clear() {
     vehicleRepository.deleteAllInBatch();
-    ConfigOptions options = ControllerHelper.getConfigOptionsFromRequest(request);
-
-    System.out.println(options);
-    
-    List<Vehicle> allVehicles = parserManager.parseAllWebsites(options);
-    for (Vehicle vehicle : allVehicles) {
-      vehicleRepository.save(vehicle);
-    }
     return true;
+  }
+
+  @PostMapping("/api/vehicles/refetch")
+  public String refetch(@RequestBody String request) {
+    String verifyParams = ControllerHelper.verifyConfigOptionsRequest(request);
+    if (verifyParams.isBlank()) {
+      verifyParams = "Success";
+    }
+    
+    Gson gson = new Gson();
+    String response = gson.toJson(verifyParams);
+    if ("Success".equals(verifyParams)) {
+      vehicleRepository.deleteAllInBatch();
+      ConfigOptions options = ControllerHelper.getConfigOptionsFromRequest(request);
+      List<Vehicle> allVehicles = parserManager.parseAllWebsites(options);
+      for (Vehicle vehicle : allVehicles) {
+        vehicleRepository.save(vehicle);
+      }
+      return response;
+    }
+    return response;
   }
 
 }

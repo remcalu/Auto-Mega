@@ -3,7 +3,7 @@ import { Refresh } from '@mui/icons-material';
 import { useState } from 'react';
 import { refetchAllVehicles } from '../../../../util/VehicleService';
 import { CustomLoadingButton } from '../../../StyledMuiComponents/CustomButtons/CustomLoadingButton/CustomLoadingButton';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 import { getDistance, getMaxMileage, getMaxPrice, getMinYear, getPostalCode, getTransmission, getVehicles, getVendorType } from '../../../../redux/reducers/filterFormSlice';
 import { fetchNumVehicles, fetchVehicles } from '../../../../redux/reducers/vehiclesSlice';
@@ -13,6 +13,8 @@ export default function RefetchVehiclesButton() {
   const dispatch = useAppDispatch();
 
   const [fetching, setfetching] = useState<boolean>();
+  const [errors, setErrors] = useState<string>("");
+
   let fetchOptions: FetchOptions = {
     postalCode: useAppSelector(getPostalCode),
     distance: useAppSelector(getDistance),
@@ -26,7 +28,10 @@ export default function RefetchVehiclesButton() {
   
   const handleClick = async(fetchOptions: FetchOptions) => {
     setfetching(true);
-    await refetchAllVehicles(fetchOptions).then(() => setfetching(false));
+    await refetchAllVehicles(fetchOptions).then(e => {
+      setfetching(false);
+      setErrors(e);
+    });
     fetchNumVehicles(dispatch);
     fetchVehicles(dispatch);
   }
@@ -42,8 +47,9 @@ export default function RefetchVehiclesButton() {
         variant="contained"
         startIcon={<Refresh/>}
       >
-        {fetching ? "Fetch in progress" : "Refetch vehicles"}
+        {fetching ? "Fetching ads..." : "Fetch vehicle ads"}
       </CustomLoadingButton>
+      <Typography color={errors === "Success" ? "green" : "red"}>{errors}</Typography>
     </Box>
   );
 }

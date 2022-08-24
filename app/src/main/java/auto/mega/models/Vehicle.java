@@ -20,27 +20,30 @@ public class Vehicle implements Serializable{
   Vehicle() {}
 
   @Id
-  @Column(name="id")
+  @Column(name="id", length=64)
   private String id;
 
-  @Column(name="brand")
+  @Column(name="brand", length=16)
   private String brand;
 
-  @Column(name="model")
+  @Column(name="model", length=16)
   private String model;
   
-  @Column(name="website")
+  @Column(name="website", length=16)
   private String website;
   
-  @Column(name="date_scraped")
+  @Column(name="date_scraped", length=16)
   private String dateScraped;
   
-  @Column(name="link")
+  @Column(name="link", length=256)
   private String link;
 
-  @Column(name="image_link")
+  @Column(name="image_link", length=256)
   private String imageLink;
   
+  @Column(name="transmission", length=16)
+  private String transmission;
+
   @Column(name="is_private_dealer")
   private Boolean isPrivateDealer;
   
@@ -64,6 +67,7 @@ public class Vehicle implements Serializable{
 		this.dateScraped = builder.dateScraped;
 		this.link = builder.link;
     this.imageLink = builder.imageLink;
+    this.transmission = builder.transmission;
     this.isPrivateDealer = builder.isPrivateDealer;
     this.instantScraped = builder.instantScraped;
     this.mileage = builder.mileage;
@@ -78,6 +82,7 @@ public class Vehicle implements Serializable{
   public String getDateScraped() { return dateScraped; }
   public String getLink() { return link; }
   public String getImageLink() { return imageLink; }
+  public String getTransmission() { return transmission; }
   public Boolean getIsPrivateDealer() { return isPrivateDealer; }
   public Long getInstantScraped() { return instantScraped; }
   public Integer getMileage() { return mileage; }
@@ -107,6 +112,7 @@ public class Vehicle implements Serializable{
       .append("dateScraped", dateScraped)
       .append("link", link)
       .append("imageLink", imageLink)
+      .append("transmission", transmission)
       .append("isPrivateDealer", isPrivateDealer)
       .append("instantScraped", instantScraped)
       .append("mileage", mileage)
@@ -133,6 +139,7 @@ public class Vehicle implements Serializable{
       .append(dateScraped, that.dateScraped)
       .append(link, that.link)
       .append(imageLink, that.imageLink)
+      .append(transmission, that.transmission)
       .append(isPrivateDealer, that.isPrivateDealer)
       .append(instantScraped, instantScraped)
       .append(mileage, that.mileage)
@@ -143,7 +150,7 @@ public class Vehicle implements Serializable{
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, brand, model, website, dateScraped, link, imageLink, isPrivateDealer, instantScraped, mileage, price, year);
+    return Objects.hash(id, brand, model, website, dateScraped, link, imageLink, transmission, isPrivateDealer, instantScraped, mileage, price, year);
   }
 
   public static class Builder {
@@ -154,6 +161,7 @@ public class Vehicle implements Serializable{
     private String dateScraped;
     private String link;
     private String imageLink;
+    private String transmission;
     private Boolean isPrivateDealer;
     private Long instantScraped;
     private Integer mileage;
@@ -166,6 +174,7 @@ public class Vehicle implements Serializable{
     public Builder withDateScraped(String dateScraped) { this.dateScraped = dateScraped;  return this; } 
     public Builder withLink(String link) { this.link = link; return this; }
     public Builder withImageLink(String imageLink) {this.imageLink = imageLink; return this; }
+    public Builder withTransmission(String transmission) {this.transmission = transmission; return this; }
     public Builder withIsPrivateDealer(Boolean isPrivateDealer) { this.isPrivateDealer = isPrivateDealer; return this; }
     public Builder withInstantScraped(Long instantScraped) { this.instantScraped = instantScraped; return this; }
     public Builder withMileage(Integer mileage) { this.mileage = mileage; return this; }
@@ -178,16 +187,3 @@ public class Vehicle implements Serializable{
     }
   }
 }
-
-/* Get size of the tables
-
-SELECT
-	table_name AS `Table`,
-	round(((data_length + index_length) / 1024 / 1024), 2) `Size in MB`
-FROM
-	information_schema.TABLES
-WHERE
-	table_schema = 'automegaapi'
-	AND table_name = 'vehicles';
-
-*/

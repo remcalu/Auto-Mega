@@ -167,6 +167,7 @@ public class KijijiParser extends RequestWebsiteParser {
       String adImageLink = getImageUrlFromModel(adModel);
       
       return new Vehicle.Builder()
+        .withTransmission("Automatic")
         .withLink(adLink)
         .withImageLink(adImageLink)
         .withBrand(adBrand)

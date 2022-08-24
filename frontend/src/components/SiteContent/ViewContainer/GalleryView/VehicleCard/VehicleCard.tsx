@@ -1,7 +1,7 @@
 import './VehicleCard.css';
 import Vehicle from '../../../../../types/Vehicle';
 import { Box, Button, Card, CardContent, CardMedia, List, ListItem, ListItemText, Stack, Typography } from '@mui/material';
-import { AccessTime, Monitor, Person, Speed, TimeToLeave } from '@mui/icons-material';
+import { Build, Monitor, Person, Speed, TimeToLeave } from '@mui/icons-material';
 import { formatIsPrivateDealer, formatWithCommas, getColorFromWebsite } from '../../../../../util/VehicleCardUtil';
 
 interface IProps {
@@ -32,6 +32,12 @@ export default function VehicleCard(props : IProps) {
             </ListItem>
             <ListItem disablePadding>
               <Stack direction="row" alignItems="center" gap={1}>
+                <Build className="VehicleCard-content-info-icon"/>
+                <ListItemText className="VehicleCard-content-info-text" primary={props.vehicle.transmission}/>
+              </Stack>
+            </ListItem>
+            <ListItem disablePadding>
+              <Stack direction="row" alignItems="center" gap={1}>
                 <Person className="VehicleCard-content-info-icon"/>
                 <ListItemText className="VehicleCard-content-info-text" primary={formatIsPrivateDealer(props.vehicle.isPrivateDealer)}/>
               </Stack>
@@ -40,12 +46,6 @@ export default function VehicleCard(props : IProps) {
               <Stack direction="row" alignItems="center" gap={1}>
                 <Monitor className="VehicleCard-content-info-icon"/>
                 <ListItemText className="VehicleCard-content-info-text" color={getColorFromWebsite(props.vehicle.website)} primary={props.vehicle.website}/>
-              </Stack>
-            </ListItem>
-            <ListItem disablePadding>
-              <Stack direction="row" alignItems="center" gap={1}>
-                <AccessTime className="VehicleCard-content-info-icon"/>
-                <ListItemText className="VehicleCard-content-info-text" primary={props.vehicle.dateScraped}/>
               </Stack>
             </ListItem>
           </List>

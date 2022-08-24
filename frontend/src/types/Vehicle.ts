@@ -7,6 +7,7 @@ type Vehicle = {
   link: string;
   imageLink: string;
   isPrivateDealer: boolean;
+  transmission: string;
   instantScraped: number;
   mileage: number;
   price: number;
