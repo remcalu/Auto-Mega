@@ -28,6 +28,7 @@ export default function RefetchVehiclesButton() {
   
   const handleClick = async(fetchOptions: FetchOptions) => {
     setfetching(true);
+    setErrors("");
     await refetchAllVehicles(fetchOptions).then(e => {
       setfetching(false);
       setErrors(e);
