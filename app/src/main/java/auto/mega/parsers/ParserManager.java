@@ -72,7 +72,7 @@ public class ParserManager {
       Thread.currentThread().interrupt();
       throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, Errors.INTERRUPTED_THREAD);
     } catch (Exception e) {
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, Errors.UNEXPECTED_ERROR);
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, Errors.UNEXPECTED_ERROR + ": " + e.getMessage());
     }
   }
 
@@ -86,7 +86,7 @@ public class ParserManager {
       Thread.currentThread().interrupt();
       throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, Errors.INTERRUPTED_THREAD);
     } catch (Exception e) {
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, Errors.UNEXPECTED_ERROR);
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, Errors.UNEXPECTED_ERROR + ": " + e.getMessage());
     }
 	}
 
@@ -100,7 +100,7 @@ public class ParserManager {
       Thread.currentThread().interrupt();
       throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, Errors.INTERRUPTED_THREAD);
     } catch (Exception e) {
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, Errors.UNEXPECTED_ERROR);
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, Errors.UNEXPECTED_ERROR + ": " + e.getMessage());
     }
 	}
 
@@ -114,7 +114,7 @@ public class ParserManager {
       Thread.currentThread().interrupt();
       throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, Errors.INTERRUPTED_THREAD);
     } catch (Exception e) {
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, Errors.UNEXPECTED_ERROR);
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, Errors.UNEXPECTED_ERROR + ": " + e.getMessage());
     }
 	}
 }

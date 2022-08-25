@@ -1,12 +1,11 @@
 package auto.mega.parsers.carpages;
 
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.nodes.Document;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Component;
 import auto.mega.models.ConfigOptions;
 import auto.mega.models.Vehicle;
 import auto.mega.parsers.RequestWebsiteParser;
+import auto.mega.utils.JsonHelper;
 
 @Component
 public class CarpagesParser extends RequestWebsiteParser {
@@ -88,6 +88,7 @@ public class CarpagesParser extends RequestWebsiteParser {
     int maxMileage = (int) params.get("maxMileage");
     int distance = (int) params.get("distance");
     int pageNum = (int) params.get("pageNum");
+    String postalCode = (String) params.get("postalCode");
     String transmission = (String) params.get("transmission");
 
     /* Some cleaning up and post processing */
@@ -119,6 +120,10 @@ public class CarpagesParser extends RequestWebsiteParser {
       transmissionStr = "&transmissiontype_id=2";
     }
 
+    Pair<Double, Double> postalCodeCoords = JsonHelper.getCoordsFromPostal(postalCode);
+    double lattitude = postalCodeCoords.getLeft();
+    double longitude = postalCodeCoords.getRight();
+
     return "https://www.carpages.ca/used-cars/search/?odometer_amount_start=10000&odometer_amount_end=" + 
       maxMileage + "&year_start=" + 
       minYear + "&price_amount_start=1000&price_amount_end=" +
@@ -126,7 +131,9 @@ public class CarpagesParser extends RequestWebsiteParser {
       brandsString + "&model_name=" + 
       modelsString + 
       transmissionStr + "&search_radius=" + 
-      distance + "&with_prices_only=1&ll=" + "43.415281000000000" + "," + "-80.473944000000000"  + "&p=" + 
+      distance + "&with_prices_only=1&ll=" + 
+      lattitude + "," + 
+      longitude + "&p=" + 
       pageNum;
   }
 
@@ -137,69 +144,26 @@ public class CarpagesParser extends RequestWebsiteParser {
   */
   private Vehicle createVehicle(Element adHTMLContainer, ArrayList<String> allVehicleBrands, ArrayList<String> allVehicleModels, String adDateScraped, Long adInstantScraped) {
     try {
-      /* Getting the link */
+      /* Getting the HTML Element that holds most of the required information */
       Element adInfoContainer = adHTMLContainer.select(".l-column.l-column--large-8").first();
-      String adLink = "https://www.carpages.ca/" + adInfoContainer.select("a").attr("href");
-
-      /* Getting container for year, brand, and model */
-      String adYearBrandModelInfoContainer = adInfoContainer.select("a").attr("title");
+      
+      /* Getting the link */
+      String adLink = CarpagesHelper.extractLinkFromAdContainer(adInfoContainer);
 
       /* Getting the year */
-      Pattern pattern = Pattern.compile("(\\d{4})");
-      Matcher matcher = pattern.matcher(adYearBrandModelInfoContainer);
-      Integer adYear = -1;
-      if (matcher.find()) {
-        adYear = Integer.parseInt(matcher.group());
-      }
+      Integer adYear = CarpagesHelper.extractYearFromAdContainer(adInfoContainer);
 
       /* Getting the brand */
-      StringBuilder brandsRegex = new StringBuilder();
-      brandsRegex.append("\\b(");
-      brandsRegex.append(String.join("|", allVehicleBrands.toArray(new CharSequence[0])));
-      brandsRegex.append(")");
-
-      pattern = Pattern.compile(brandsRegex.toString(), Pattern.CASE_INSENSITIVE);
-      matcher = pattern.matcher(adYearBrandModelInfoContainer);
-      String adBrand = "";
-      if (matcher.find()) {
-        adBrand = StringUtils.capitalize(matcher.group().toLowerCase());
-      }
+      String adBrand = CarpagesHelper.extractBrandFromAdContainer(adInfoContainer, allVehicleBrands);
 
       /* Getting the model */
-      StringBuilder modelsRegex = new StringBuilder();
-      modelsRegex.append("\\b(");
-      modelsRegex.append(String.join("|", allVehicleModels.toArray(new CharSequence[0])));
-      modelsRegex.append(")");
-      String modelsRegexString = modelsRegex.toString().replace("mazda 6", "mazda 6|mazda6").replace("mazda 3", "mazda 3|mazda3");
-      
-      pattern = Pattern.compile(modelsRegexString, Pattern.CASE_INSENSITIVE);
-      matcher = pattern.matcher(adYearBrandModelInfoContainer);
-      String adModel = null;
-      if (matcher.find()) {
-        adModel = StringUtils.capitalize(matcher.group().toLowerCase().replace(" ", ""));
-        adModel = adModel.replace("Mazda3", "Mazda 3").replace("Mazda6", "Mazda 6");
-      }
+      String adModel = CarpagesHelper.extractModelFromAdContainer(adInfoContainer, allVehicleModels);
 
       /* Getting the price */
-      pattern = Pattern.compile("(\\d{1,2}\\,\\d{3})");
-      matcher = pattern.matcher(adInfoContainer.select(".delta").text());
-      Integer adPrice = -1;
-      if (matcher.find()) {
-        adPrice = Integer.parseInt(matcher.group().replace(",", ""));
-      }
+      Integer adPrice = CarpagesHelper.extractPriceFromAdContainer(adInfoContainer);
 
       /* Getting the mileage */
-      StringBuilder mileageBuilder = new StringBuilder();
-      Elements mileagePieces = adInfoContainer.select(".l-row.soft-half--top").first().child(1).select(".number");
-      for (Element mileagePiece : mileagePieces) {
-        if (!",".equals(mileagePiece.text())) {
-          mileageBuilder.append(mileagePiece.text());
-        }
-      }
-      Integer adMileage = -1;
-      if (!mileageBuilder.toString().isEmpty()) {
-        adMileage = Integer.parseInt(mileageBuilder.toString());
-      }
+      Integer adMileage = CarpagesHelper.extractMileageFromAdContainer(adInfoContainer);
 
       /* Getting the dealer type */
       Boolean adIsPrivateDealer = false;

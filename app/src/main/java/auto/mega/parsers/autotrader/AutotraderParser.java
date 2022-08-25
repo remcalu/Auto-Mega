@@ -15,9 +15,7 @@ import org.springframework.stereotype.Component;
 
 import auto.mega.models.ConfigOptions;
 import auto.mega.models.Vehicle;
-import auto.mega.parsers.ObjectProcessor;
 import auto.mega.parsers.RequestWebsiteParser;
-import auto.mega.parsers.ObjectProcessor.Identifier;
 
 @Component
 public class AutotraderParser extends RequestWebsiteParser {
@@ -99,10 +97,25 @@ public class AutotraderParser extends RequestWebsiteParser {
     String transmission = (String) params.get("transmission");
     Boolean includePrivateDealers = (Boolean) params.get("includePrivateDealers");
 
-    /* Some cleaning up and post processing */
-    model = ObjectProcessor.processToString(Identifier.AT_STR_URL_MAZDA,  model);
-    transmission = ObjectProcessor.processToString(Identifier.AT_STR_URL_TRANSMISSION, transmission);
-    String privateDealer = ObjectProcessor.processToString(Identifier.AT_STR_URL_PRIV_DEALERS, includePrivateDealers);    
+    /* Add extra parsing for mazdas */
+    if (model.contains("mazda")) {
+      model = model.replace(" ", "");
+    } else {
+      model = model.replace(" ", "%20");
+    }
+  
+    /* Convert transmission to a form usable in the URL */
+    if (transmission.equals("Automatic")) {
+      transmission = "&transmission=2";
+    } else if (transmission.equals("Manual")) {
+      transmission = "&transmission=1";
+    }
+
+    /* Getting link info for if private dealers should be included */
+    String privateDealer = "";
+    if (Boolean.FALSE.equals(includePrivateDealers)) {
+      privateDealer = "&adtype=Dealer";
+    }
 
     return "https://www.autotrader.ca/cars/" + 
       brand + "/" +  
@@ -125,9 +138,11 @@ public class AutotraderParser extends RequestWebsiteParser {
   */
   private Vehicle createVehicle(Element adHTMLContainer, String vehicleBrand, String vehicleModel, String adDateScraped, Long adInstantScraped) {
     try {
-      /* Getting the link */
+      /* Getting the HTML Element that holds most of the required information */
       Element adInfoContainer = adHTMLContainer.select(".result-title").first();
-      String adLink = "https://www.autotrader.ca" + adInfoContainer.attr("href");
+      
+      /* Getting the link */
+      String adLink = AutotraderHelper.extractLinkFromAdContainer(adInfoContainer);
       
       /* Getting the brand */
       String adBrand = StringUtils.capitalize(vehicleBrand);
@@ -136,16 +151,16 @@ public class AutotraderParser extends RequestWebsiteParser {
       String adModel = StringUtils.capitalize(vehicleModel);
 
       /* Getting the price */
-      Integer adPrice = ObjectProcessor.processToInt(Identifier.AT_STR_AD_PRICE, adHTMLContainer.select(".price-amount").first().text());
+      Integer adPrice = AutotraderHelper.extractPriceFromAdContainer(adHTMLContainer);
 
       /* Getting the year */
-      Integer adYear = ObjectProcessor.processToInt(Identifier.AT_STR_AD_YEAR, adInfoContainer.text());
+      Integer adYear = AutotraderHelper.extractYearFromAdContainer(adInfoContainer);
       
       /* Getting the mileage */
-      Integer adMileage = ObjectProcessor.processToInt(Identifier.AT_STR_AD_MILEAGE, adHTMLContainer.select(".kms").text());
+      Integer adMileage = AutotraderHelper.extractMileageFromAdContainer(adHTMLContainer);
 
       /* Getting the dealer type */
-      Boolean adIsPrivateDealer = ObjectProcessor.processToBoolean(Identifier.AT_STR_AD_MILEAGE, adHTMLContainer);
+      Boolean adIsPrivateDealer = AutotraderHelper.extractDealerFromAdContainer(adHTMLContainer);
       
       /* Getting the vehicle image */
       String adImageLink = getImageUrlFromModel(adModel);

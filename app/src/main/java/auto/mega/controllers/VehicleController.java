@@ -45,23 +45,27 @@ public class VehicleController {
 
   @PostMapping("/api/vehicles/refetch")
   public String refetch(@RequestBody String request) {
-    String verifyParams = ControllerHelper.verifyConfigOptionsRequest(request);
-    if (verifyParams.isBlank()) {
-      verifyParams = "Success";
-    }
-    
-    Gson gson = new Gson();
-    String response = gson.toJson(verifyParams);
-    if ("Success".equals(verifyParams)) {
-      vehicleRepository.deleteAllInBatch();
-      ConfigOptions options = ControllerHelper.getConfigOptionsFromRequest(request);
-      List<Vehicle> allVehicles = parserManager.parseAllWebsites(options);
-      for (Vehicle vehicle : allVehicles) {
-        vehicleRepository.save(vehicle);
+    try {
+      String verifyParams = ControllerHelper.verifyConfigOptionsRequest(request);
+      if (verifyParams.isBlank()) {
+        verifyParams = "Success";
+      }
+      
+      Gson gson = new Gson();
+      String response = gson.toJson(verifyParams);
+      if ("Success".equals(verifyParams)) {
+        vehicleRepository.deleteAllInBatch();
+        ConfigOptions options = ControllerHelper.getConfigOptionsFromRequest(request);
+        List<Vehicle> allVehicles = parserManager.parseAllWebsites(options);
+        for (Vehicle vehicle : allVehicles) {
+          vehicleRepository.save(vehicle);
+        }
       }
       return response;
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-    return response;
+    return "";
   }
 
 }

@@ -2,8 +2,6 @@ package auto.mega.parsers.kijiji;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -126,17 +124,14 @@ public class KijijiParser extends RequestWebsiteParser {
   */
   private Vehicle createVehicle(Element adHTMLContainer, String vehicleBrand, String vehicleModel, String adDateScraped, Long adInstantScraped) {
     try {
-      /* Getting the link */
+      /* Getting the HTML Element that holds all required information */
       Element adInfoContainer = adHTMLContainer.select(".info-container").first();
-      String adLink = "https://www.kijiji.ca" + adInfoContainer.select(".title").attr("href");
+
+      /* Getting the link */
+      String adLink = KijijiHelper.extractLinkFromAdContainer(adInfoContainer);
 
       /* Getting the year */
-      Pattern pattern = Pattern.compile("(\\d{4})");
-      Matcher matcher = pattern.matcher(adInfoContainer.select(".title").text());
-      Integer adYear = -1;
-      if (matcher.find()) {
-        adYear = Integer.parseInt(matcher.group());
-      }
+      Integer adYear = KijijiHelper.extractYearFromAdContainer(adInfoContainer);
 
       /* Getting the brand */
       String adBrand = StringUtils.capitalize(vehicleBrand);
@@ -145,20 +140,10 @@ public class KijijiParser extends RequestWebsiteParser {
       String adModel = StringUtils.capitalize(vehicleModel);
 
       /* Getting the price */
-      pattern = Pattern.compile("(\\d{1,2}\\,\\d{3})");
-      matcher = pattern.matcher(adInfoContainer.select(".price").text());
-      Integer adPrice = -1;
-      if (matcher.find()) {
-        adPrice = Integer.parseInt(matcher.group().replace(",", ""));
-      }
+      Integer adPrice = KijijiHelper.extractPriceFromAdContainer(adInfoContainer);
 
       /* Getting the mileage */
-      pattern = Pattern.compile("(\\d{1,3}\\,\\d{3})");
-      matcher = pattern.matcher(adInfoContainer.select(".description .details").text());
-      Integer adMileage = -1;
-      if (matcher.find()) {
-        adMileage = Integer.parseInt(matcher.group().replace(",", ""));
-      }
+      Integer adMileage = KijijiHelper.extractMileageFromAdContainer(adInfoContainer);
 
       /* Getting the dealer type */
       Boolean adIsPrivateDealer = adInfoContainer.select(".price .dealer-logo").isEmpty();

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import auto.mega.models.ConfigOptions;
 import auto.mega.models.Vehicle;
 
@@ -20,6 +22,7 @@ import com.google.gson.stream.JsonReader;
 
 public class JsonHelper {
 
+  private static final String PATH_POSTAL_COORDS_MAP = "src/main/resources/postalCoordMap.json";
   private static final String PATH_CONFIG_FILE = "src/main/resources/options.json";
   private static final String VEHICLE_OUTPUT_FILE_PATH = "src/main/resources/output/out.json";
   private static final String VEHICLE_OUTPUT_READABLE_FILE_PATH = "src/main/resources/output/outReadable.txt";
@@ -145,5 +148,23 @@ public class JsonHelper {
     }
 
     return vehicleList;
+  }
+
+  public static Pair<Double, Double> getCoordsFromPostal(String postalCode) {
+    /* Getting options file data */
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    JsonReader reader;
+    try {
+      reader = new JsonReader(new FileReader(PATH_POSTAL_COORDS_MAP));
+    } catch (FileNotFoundException e) {
+      return null;
+    }
+    JsonObject optionsJsonObj = gson.fromJson(reader, JsonObject.class);
+    JsonObject postalCodeCoords = optionsJsonObj.get(postalCode.replace(" ", "").toUpperCase()).getAsJsonObject();
+    if (postalCodeCoords == null) {
+      /* Return toronto */
+      return Pair.of(43.651070, -79.347015);
+    }
+    return Pair.of(postalCodeCoords.get("lat").getAsDouble(), postalCodeCoords.get("lon").getAsDouble());
   }
 }
