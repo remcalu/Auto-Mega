@@ -3,10 +3,12 @@
 .vscode
 
 # Ignore Gradle build output directory
-build
+.gitignore
+.gitattributes
 app/bin
 
 # Ignore other files
-.vscode
+createdockercontainer.sh
+createdockerimage.sh
 frontend/node_modules
 frontend/build
