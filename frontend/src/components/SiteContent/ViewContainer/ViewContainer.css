@@ -1,4 +1,5 @@
 .ViewContainer {
+  min-width: 765px;
   width: 80%;
   padding-top: 4vh;
   padding-left: 1vw;

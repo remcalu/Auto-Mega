@@ -50,7 +50,6 @@ export const filterFormSlice = createSlice({
       state.maxMileage = action.payload;
     },
     setMinYear: (state, action: PayloadAction<number>) => {
-      console.log(state.minYear);
       state.minYear = action.payload;
     },
   },

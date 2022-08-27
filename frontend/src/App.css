@@ -1,16 +1,24 @@
 .App {
   text-align: center;
   background-color: #ededed;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  min-height: 140vh;
+  min-width: 1250px;
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
-/* MATERIAL UI CSS OVERRIDE */
+
+/* CSS OVERRIDES */
 .MuiOutlinedInput-root {
   background-color: white;
+}
+
+.Toastify__toast-container {
+  width: 400px !important;
+  min-width: 10px !important;
+}
+
+.Toastify__toast-body {
+  margin: 0 !important;
+  font-size: 20px !important;
 }

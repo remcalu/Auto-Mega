@@ -8,7 +8,6 @@ export default function LocationFilter() {
   const dispatch = useAppDispatch();
   
   function updateState(e: any) {
-    console.log(e.target.value)
     dispatch(setPostalCode(e.target.value));
   }
 
@@ -19,7 +18,7 @@ export default function LocationFilter() {
         <TextField onChange={updateState} label="Postal code" variant="outlined" />
         <InputSlider 
           updateStateReducer={setDistance}
-          label={'Max distance from postal code'} 
+          label={'Max distance from origin'} 
           defaultValue={INITIAL_DISTANCE} 
           step={10} 
           marks={DISTANCE_SLIDER_MARKS} 

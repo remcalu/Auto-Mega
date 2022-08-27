@@ -1,19 +1,19 @@
 import './RefetchVehiclesButton.css';
-import { Refresh } from '@mui/icons-material';
+import { Search } from '@mui/icons-material';
 import { useState } from 'react';
 import { refetchAllVehicles } from '../../../../util/VehicleService';
 import { CustomLoadingButton } from '../../../StyledMuiComponents/CustomButtons/CustomLoadingButton/CustomLoadingButton';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 import { getDistance, getMaxMileage, getMaxPrice, getMinYear, getPostalCode, getTransmission, getVehicles, getVendorType } from '../../../../redux/reducers/filterFormSlice';
 import { fetchNumVehicles, fetchVehicles } from '../../../../redux/reducers/vehiclesSlice';
 import FetchOptions from '../../../../types/FetchOptions';
+import { notifyError, notifySuccess } from '../../../../util/VehicleCardUtil';
 
 export default function RefetchVehiclesButton() {
   const dispatch = useAppDispatch();
 
   const [fetching, setfetching] = useState<boolean>();
-  const [errors, setErrors] = useState<string>("");
 
   let fetchOptions: FetchOptions = {
     postalCode: useAppSelector(getPostalCode),
@@ -28,13 +28,24 @@ export default function RefetchVehiclesButton() {
   
   const handleClick = async(fetchOptions: FetchOptions) => {
     setfetching(true);
-    setErrors("");
     await refetchAllVehicles(fetchOptions).then(e => {
       setfetching(false);
-      setErrors(e);
+      if (e == "Success") {
+        notifySuccess(e);
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+      } else {
+        let errors = e.split(", ");
+        for (let i = 0; i < errors.length; i++) {
+          if (i != 0) {
+            errors[i] = "ERROR: " + errors[i];
+          }
+          notifyError(errors[i]);
+        }
+      }
     });
     fetchNumVehicles(dispatch);
     fetchVehicles(dispatch);
+    
   }
 
   
@@ -46,11 +57,10 @@ export default function RefetchVehiclesButton() {
         loading={fetching}
         loadingPosition="start"
         variant="contained"
-        startIcon={<Refresh/>}
+        startIcon={<Search/>}
       >
-        {fetching ? "Fetching ads..." : "Fetch vehicle ads"}
+        {fetching ? "Searching..." : "Search for ads"}
       </CustomLoadingButton>
-      <Typography color={errors === "Success" ? "green" : "red"}>{errors}</Typography>
     </Box>
   );
 }

@@ -18,7 +18,6 @@ export default function InputSlider(props: IProps) {
   const dispatch = useAppDispatch();
   
   function updateState(e: any) {
-    console.log(e.target.value)
     dispatch(props.updateStateReducer(e.target.value));
   }
 

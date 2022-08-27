@@ -49,8 +49,8 @@ public class CarpagesParser extends RequestWebsiteParser {
     urlParamsMap.put("models", allVehicleModels);
 
     Elements adHTMLContainers = new Elements();
-    for (int i = 1; i < 10; i++) {
-      logger.info("CP: Parsing vehicle page: {}/{}", i, 9);
+    for (int i = 1; i < 50; i++) {
+      logger.info("CP: Parsing vehicle page: {}", i);
 
       urlParamsMap.put("pageNum", i);
       String currentURL = urlConstructor(urlParamsMap);
@@ -61,6 +61,11 @@ public class CarpagesParser extends RequestWebsiteParser {
         continue;
       }
       adHTMLContainers.addAll(doc.select(".media.soft.push-none"));
+
+      /* Exit when no further pages */
+      if (doc.select("a[title='Next Page']").isEmpty()) {
+        break;
+      }
     }
 
     /* Looping through all containers that contain a vehicle */

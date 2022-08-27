@@ -41,7 +41,7 @@ public class ControllerHelper {
     JsonArray transmissionArray = configOptionsJson.get("transmission").getAsJsonArray();
     if (transmissionArray.isEmpty()) {
       preprocessError(errors);
-      errors.append("Choose at least one vendor transmission type");
+      errors.append("Choose at least one transmission type");
     }
 
     return errors.toString();

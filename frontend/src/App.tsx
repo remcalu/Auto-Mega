@@ -6,6 +6,8 @@ import SiteContent from './components/SiteContent/SiteContent';
 import { useAppDispatch } from './redux/hooks';
 import { fetchNumVehicles, fetchVehicles } from './redux/reducers/vehiclesSlice';
 import { clearAllVehicles } from './util/VehicleService';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const theme = createTheme({
   palette: {
@@ -28,6 +30,16 @@ export default function App() {
     <Box className="App">
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            theme="colored"
+            draggable
+          />
           <SiteHeader/>
           <SiteContent/>
         </ThemeProvider>

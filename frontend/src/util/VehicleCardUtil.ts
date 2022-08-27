@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import Vehicle from "../types/Vehicle";
 
 export function formatIsPrivateDealer(isPrivateDealer: boolean) {
@@ -28,3 +29,23 @@ export function preSort(vehicles: Vehicle[]) {
     .sort((a, b) => a.mileage - b.mileage)
     .sort((a, b) => a.price - b.price);
 }
+
+export const notifyError = (text: string) => toast.error(text, {
+  position: "top-center",
+  autoClose: 7000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  draggable: true,
+  theme: "colored",
+  progress: undefined,
+});
+
+export const notifySuccess = (text: string) => toast.success(text, {
+  position: "top-center",
+  autoClose: 7000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  draggable: true,
+  theme: "colored",
+  progress: undefined,
+});

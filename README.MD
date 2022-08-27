@@ -57,6 +57,7 @@ https://user-images.githubusercontent.com/59599955/186570213-52e959e7-3d44-43f9-
 ~~~~
 $gradle backendRun            Builds and runs the Java and Spring Boot backend
 $gradle frontendRun           Builds and runs the React frontend
+$gradle frontendStop          Stops the frontend if exited through CTRL+C
 $gradle buildAll              Builds the frontend and backend
 $gradle cleanAll              Cleans frontend and backend builds
 ~~~~
