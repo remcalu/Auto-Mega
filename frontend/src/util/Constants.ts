@@ -14,7 +14,7 @@ export const ALL_SUPPORTED_VEHICLES = [
   'Toyota Camry',
   'Toyota Avalon',
   'Toyota Matrix',
-  'Toyota Yaris	',
+  'Toyota Yaris',
   'Honda Civic',
   'Honda Accord',
   'Honda Insight',

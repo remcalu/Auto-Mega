@@ -27,7 +27,7 @@ export default function VehicleCard(props : IProps) {
             <ListItem disablePadding>
               <Stack direction="row" alignItems="center" gap={1}>
                 <Speed className="VehicleCard-content-info-icon"/>
-                <ListItemText className="VehicleCard-content-info-text" primary={formatWithCommas(props.vehicle.mileage)}/>
+                <ListItemText className="VehicleCard-content-info-text" primary={props.vehicle.mileage === 0 ? "New" : formatWithCommas(props.vehicle.mileage)}/>
               </Stack>
             </ListItem>
             <ListItem disablePadding>

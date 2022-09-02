@@ -30,6 +30,26 @@ export function preSort(vehicles: Vehicle[]) {
     .sort((a, b) => a.price - b.price);
 }
 
+export function calcShownVehicles(vehicles, pageNum) {
+  if (vehicles.length === 0) {
+    return [];
+  }
+
+  let vehiclesForPage = [];
+  for (let i = 0; i < vehicles.length; i += 24) {
+    vehiclesForPage.push(vehicles.slice(i, i+24));
+  }
+  return vehiclesForPage[pageNum-1];
+}
+
+export function calcNumPages(vehicles) {
+  return Math.ceil(vehicles.length / 24);
+}
+
+export function scrollTop() {
+  window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+}
+
 export const notifyError = (text: string) => toast.error(text, {
   position: "top-center",
   autoClose: 7000,

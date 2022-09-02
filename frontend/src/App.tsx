@@ -5,7 +5,6 @@ import SiteHeader from './components/SiteHeader/SiteHeader';
 import SiteContent from './components/SiteContent/SiteContent';
 import { useAppDispatch } from './redux/hooks';
 import { fetchNumVehicles, fetchVehicles } from './redux/reducers/vehiclesSlice';
-import { clearAllVehicles } from './util/VehicleService';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -21,10 +20,8 @@ const theme = createTheme({
 
 export default function App() {
   const dispatch = useAppDispatch();
-  clearAllVehicles().then(() => {
-    fetchNumVehicles(dispatch);
-    fetchVehicles(dispatch);
-  });
+  fetchNumVehicles(dispatch);
+  fetchVehicles(dispatch);
   
   return (
     <Box className="App">

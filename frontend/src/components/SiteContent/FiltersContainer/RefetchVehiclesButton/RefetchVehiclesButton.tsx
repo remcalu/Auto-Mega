@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 import { getDistance, getMaxMileage, getMaxPrice, getMinYear, getPostalCode, getTransmission, getVehicles, getVendorType } from '../../../../redux/reducers/filterFormSlice';
 import { fetchNumVehicles, fetchVehicles } from '../../../../redux/reducers/vehiclesSlice';
 import FetchOptions from '../../../../types/FetchOptions';
-import { notifyError, notifySuccess } from '../../../../util/VehicleCardUtil';
+import { notifyError, notifySuccess, scrollTop } from '../../../../util/VehicleCardUtil';
 
 export default function RefetchVehiclesButton() {
   const dispatch = useAppDispatch();
@@ -30,13 +30,13 @@ export default function RefetchVehiclesButton() {
     setfetching(true);
     await refetchAllVehicles(fetchOptions).then(e => {
       setfetching(false);
-      if (e == "Success") {
+      if (e === "Success") {
         notifySuccess(e);
-        window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+        scrollTop();
       } else {
         let errors = e.split(", ");
         for (let i = 0; i < errors.length; i++) {
-          if (i != 0) {
+          if (i !== 0) {
             errors[i] = "ERROR: " + errors[i];
           }
           notifyError(errors[i]);

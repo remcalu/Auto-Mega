@@ -49,7 +49,7 @@ public class CarpagesParser extends RequestWebsiteParser {
     urlParamsMap.put("models", allVehicleModels);
 
     Elements adHTMLContainers = new Elements();
-    for (int i = 1; i < 50; i++) {
+    for (int i = 1; i < 30; i++) {
       logger.info("CP: Parsing vehicle page: {}", i);
 
       urlParamsMap.put("pageNum", i);

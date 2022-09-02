@@ -61,10 +61,11 @@ public class AutotraderParser extends RequestWebsiteParser {
         }
 
         /* Performing no further parsing if no vehicles are found at that URL */
-        int numVehiclesFound = Integer.parseInt(doc.select("#sbCount").text());
+        int numVehiclesFound = Integer.parseInt(doc.select("#sbCount").text().replace(",", ""));
         if (numVehiclesFound == 0) {
           continue;
         }
+
 
         /* Looping through all containers that contain a vehicle */
         Elements adHTMLContainers = doc.select(".result-item");
@@ -138,6 +139,7 @@ public class AutotraderParser extends RequestWebsiteParser {
   */
   private Vehicle createVehicle(Element adHTMLContainer, String vehicleBrand, String vehicleModel, String adDateScraped, Long adInstantScraped) {
     try {
+
       /* Getting the HTML Element that holds most of the required information */
       Element adInfoContainer = adHTMLContainer.select(".result-title").first();
       

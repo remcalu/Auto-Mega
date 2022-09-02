@@ -1,11 +1,19 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Pagination, Stack, Typography } from '@mui/material';
 import { useAppSelector } from '../../../../redux/hooks';
 import { RootState } from '../../../../redux/store';
 import VehicleListCard from './VehicleListCard/VehicleListCard';
 import "./ListView.css"
+import { useState } from 'react';
+import { calcShownVehicles, calcNumPages, scrollTop } from '../../../../util/VehicleCardUtil';
 
 export default function ListView() {
   const vehicles = useAppSelector((state: RootState) => state.vehicles.vehicles);
+  
+  const [page, setPage] = useState(1);
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+    scrollTop();
+  };
   
   return (
     <Box className="ListView-body">
@@ -32,10 +40,13 @@ export default function ListView() {
             </Box>
           </Stack>
           <Stack>
-            {vehicles.map((vehicle, index) => 
+            {calcShownVehicles(vehicles, page).length !== 0 && calcShownVehicles(vehicles, page).map((vehicle, index) => 
               <VehicleListCard key={index} vehicle={vehicle}/>
             )}
           </Stack>
+          <Box marginTop={2} display="flex" justifyContent="center">
+            {vehicles.length !== 0 && <Pagination count={calcNumPages(vehicles)} page={page} onChange={handleChange} />}
+          </Box>
         </Box>
       }
     </Box>
