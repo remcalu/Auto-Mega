@@ -50,6 +50,17 @@ export function scrollTop() {
   window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
 }
 
+export const notifyWarn = (text: string) => toast.warn(text, {
+  position: "top-center",
+  autoClose: 14000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  draggable: true,
+  theme: "colored",
+  progress: undefined,
+});
+
+
 export const notifyError = (text: string) => toast.error(text, {
   position: "top-center",
   autoClose: 7000,

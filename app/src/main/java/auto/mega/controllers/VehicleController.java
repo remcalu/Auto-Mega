@@ -1,6 +1,7 @@
 package auto.mega.controllers;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.google.gson.Gson;
 
 import auto.mega.models.ConfigOptions;
 import auto.mega.models.Vehicle;
@@ -44,28 +43,24 @@ public class VehicleController {
   }
 
   @PostMapping("/api/vehicles/refetch")
-  public String refetch(@RequestBody String request) {
-    try {
-      String verifyParams = ControllerHelper.verifyConfigOptionsRequest(request);
-      if (verifyParams.isBlank()) {
-        verifyParams = "Success";
+  public List<String> refetch(@RequestBody String request) {
+    try {      
+      List<String> response = ControllerHelper.verifyConfigOptionsRequest(request);
+      if (!response.isEmpty()) {
+        return response;
       }
       
-      Gson gson = new Gson();
-      String response = gson.toJson(verifyParams);
-      if ("Success".equals(verifyParams)) {
-        vehicleRepository.deleteAllInBatch();
-        ConfigOptions options = ControllerHelper.getConfigOptionsFromRequest(request);
-        List<Vehicle> allVehicles = parserManager.parseAllWebsites(options);
-        for (Vehicle vehicle : allVehicles) {
-          vehicleRepository.save(vehicle);
-        }
+      vehicleRepository.deleteAllInBatch();
+      ConfigOptions options = ControllerHelper.getConfigOptionsFromRequest(request);
+      List<Vehicle> allVehicles = parserManager.parseAllWebsites(options);
+      for (Vehicle vehicle : allVehicles) {
+        vehicleRepository.save(vehicle);
       }
       return response;
     } catch (Exception e) {
       e.printStackTrace();
     }
-    return "";
+    return new ArrayList<>();
   }
 
 }

@@ -4,6 +4,7 @@ import auto.mega.models.ConfigOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -15,36 +16,32 @@ public class ControllerHelper {
   
   private ControllerHelper() {}
 
-  public static String verifyConfigOptionsRequest(String requestJsonString) {
+  public static List<String> verifyConfigOptionsRequest(String requestJsonString) {
     Gson gson = new Gson();
     JsonObject configOptionsJson = gson.fromJson(requestJsonString, JsonObject.class);
     
-    StringBuilder errors = new StringBuilder();
+    ArrayList<String> errors = new ArrayList<>();
     String postalCode = configOptionsJson.get("postalCode").getAsString();
     if (!postalCode.matches("^[A-Za-z]\\d[A-Za-z][ -]?\\d[A-Za-z]\\d$")) {
-      preprocessError(errors);
-      errors.append("Invalid postal code");
+      errors.add("Invalid postal code");
     }
 
     JsonArray vehiclesArray = configOptionsJson.get("vehicles").getAsJsonArray();
     if (vehiclesArray.isEmpty()) {
-      preprocessError(errors);
-      errors.append("Choose at least one vehicle");
+      errors.add("Choose at least one vehicle");
     }
 
     JsonArray vendorTypeArray = configOptionsJson.get("vendorType").getAsJsonArray();
     if (vendorTypeArray.isEmpty()) {
-      preprocessError(errors);
-      errors.append("Choose at least one vendor type");
+      errors.add("Choose at least one vendor type");
     }
 
     JsonArray transmissionArray = configOptionsJson.get("transmission").getAsJsonArray();
     if (transmissionArray.isEmpty()) {
-      preprocessError(errors);
-      errors.append("Choose at least one transmission type");
+      errors.add("Choose at least one transmission type");
     }
 
-    return errors.toString();
+    return errors;
   }
 
   public static ConfigOptions getConfigOptionsFromRequest(String requestJsonString) {
@@ -116,13 +113,5 @@ public class ControllerHelper {
       return transmission.getAsString();
     }
     return "";
-  }
-
-  private static void preprocessError(StringBuilder errors) {
-    if (errors.toString().isBlank()) {
-      errors.append("ERROR: ");
-    } else {
-      errors.append(", ");
-    }
   }
 }

@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 import { getDistance, getMaxMileage, getMaxPrice, getMinYear, getPostalCode, getTransmission, getVehicles, getVendorType } from '../../../../redux/reducers/filterFormSlice';
 import { fetchNumVehicles, fetchVehicles } from '../../../../redux/reducers/vehiclesSlice';
 import FetchOptions from '../../../../types/FetchOptions';
-import { notifyError, notifySuccess, scrollTop } from '../../../../util/VehicleCardUtil';
+import { notifyError, notifySuccess, notifyWarn, scrollTop } from '../../../../util/VehicleCardUtil';
 
 export default function RefetchVehiclesButton() {
   const dispatch = useAppDispatch();
@@ -28,24 +28,30 @@ export default function RefetchVehiclesButton() {
   
   const handleClick = async(fetchOptions: FetchOptions) => {
     setfetching(true);
-    await refetchAllVehicles(fetchOptions).then(e => {
+    let errorFound = false;
+    
+    refetchAllVehicles(fetchOptions).then(e => {
       setfetching(false);
-      if (e === "Success") {
-        notifySuccess(e);
+      console.log(e.length);
+      if (e.length === 0) {
+        notifySuccess("Successfully loaded results");
         scrollTop();
       } else {
-        let errors = e.split(", ");
-        for (let i = 0; i < errors.length; i++) {
-          if (i !== 0) {
-            errors[i] = "ERROR: " + errors[i];
-          }
-          notifyError(errors[i]);
+        errorFound = true;
+        for (let error of e) {
+          notifyError(error);
         }
       }
+
+      fetchNumVehicles(dispatch);
+      fetchVehicles(dispatch);
     });
-    fetchNumVehicles(dispatch);
-    fetchVehicles(dispatch);
     
+    setTimeout(function () {
+      if (!errorFound) {
+        notifyWarn("Note that it may take a few minutes for the results to load, you can come back later if you'd like")
+      }
+    }, 1500);
   }
 
   

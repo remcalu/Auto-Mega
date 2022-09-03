@@ -1,13 +1,13 @@
 import { Box, Pagination, Stack, Typography } from '@mui/material';
 import { useAppSelector } from '../../../../redux/hooks';
-import { RootState } from '../../../../redux/store';
 import VehicleListCard from './VehicleListCard/VehicleListCard';
 import "./ListView.css"
 import { useState } from 'react';
 import { calcShownVehicles, calcNumPages, scrollTop } from '../../../../util/VehicleCardUtil';
+import { selectVehicles } from '../../../../redux/reducers/vehiclesSlice';
 
 export default function ListView() {
-  const vehicles = useAppSelector((state: RootState) => state.vehicles.vehicles);
+  const vehicles = useAppSelector(selectVehicles);
   
   const [page, setPage] = useState(1);
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
