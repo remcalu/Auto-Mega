@@ -23,7 +23,7 @@ export default function ListView() {
             <Box width="50px">
               <Typography variant="h5" align='left' color="black">Price</Typography>
             </Box>
-            <Box width="80px">
+            <Box width="70px">
               <Typography variant="h5" align='left' color="black">Brand</Typography>
             </Box>
             <Box width="80px">
@@ -32,10 +32,10 @@ export default function ListView() {
             <Box width="70px">
               <Typography variant="h5" align='left' color="black">Mileage</Typography>
             </Box>
-            <Box width="50px">
+            <Box width="40px">
               <Typography variant="h5" align='left' color="black">Year</Typography>
             </Box>
-            <Box width="50px">
+            <Box width="70px">
               <Typography variant="h5" align='left' color="black">Vendor</Typography>
             </Box>
           </Stack>

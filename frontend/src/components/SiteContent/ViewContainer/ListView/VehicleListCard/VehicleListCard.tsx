@@ -16,17 +16,18 @@ export default function VehicleListCard(props : IProps) {
               <Box width="50px">
                 <Typography align='left' color="black">${props.vehicle.price}</Typography>
               </Box>
-              <Box width="80px">
+              <Box width="70px">
                 <Typography align='left' color="black">{props.vehicle.brand}</Typography>
               </Box>
               <Box width="80px">
                 <Typography align='left' color="black">{props.vehicle.model}</Typography>
               </Box>
               <Box width="70px">
-                <Typography align='left' color="black">{props.vehicle.mileage}km</Typography>
+                <Typography align='left' color="black">{props.vehicle.mileage === 0 ? "New" : 
+                (props.vehicle.mileage === -1 ? "N/A" : props.vehicle.mileage + "km")}</Typography>
               </Box>
               <Box width="50px">
-                <Typography align='left' color="black">{props.vehicle.year}</Typography>
+                <Typography align='left' color="black">{props.vehicle.year === -1 ? "N/A" : props.vehicle.year}</Typography>
               </Box>
               <Box width="50px">
                 <Typography align='left' color="black">{props.vehicle.isPrivateDealer ? "Private" : "Dealer"}</Typography>
