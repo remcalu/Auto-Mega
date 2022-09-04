@@ -43,35 +43,39 @@ public class KijijiParser extends RequestWebsiteParser {
 
       ArrayList<String> allVehicleModelsForBrand = searchOptions.getVehicleBrandModels().get(vehicleBrand);
       for (String vehicleModel : allVehicleModelsForBrand) {
-        logger.info("KI: Parsing vehicles of type: {} {}", vehicleBrand, vehicleModel);
+        try {
+          logger.info("KI: Parsing vehicles of type: {} {}", vehicleBrand, vehicleModel);
 
-        urlParamsMap.put("model", vehicleModel);
+          urlParamsMap.put("model", vehicleModel);
 
-        /* Constructing URL from configuration paramaters */
-        String currentURL = urlConstructor(urlParamsMap);
+          /* Constructing URL from configuration paramaters */
+          String currentURL = urlConstructor(urlParamsMap);
 
-        /* Add artificial wait times to circumvent DOS protection */
-        Document doc = extractWebsiteResponse(currentURL, "#MainContainer", REQUEST_DELAY_TIME_SHORT, REQUEST_FAILURE_RETRY_WAIT);
-        if (doc == null || calcNumVehiclesFound(doc) == 0) {
-          continue;
+          /* Add artificial wait times to circumvent DOS protection */
+          Document doc = extractWebsiteResponse(currentURL, "#MainContainer", REQUEST_DELAY_TIME_SHORT, REQUEST_FAILURE_RETRY_WAIT);
+          if (doc == null || calcNumVehiclesFound(doc) == 0) {
+            continue;
+          }
+
+          /*Creating a list of containers that will hold vehicles */
+          Element mainContainer = doc.select("main").first().firstElementChild();
+          while (mainContainer.nextElementSibling() != null) {
+            mainContainer = mainContainer.nextElementSibling();
+          }
+          Elements adHTMLContainers = mainContainer.children();
+          adHTMLContainers.removeIf(e -> !e.hasAttr("data-listing-id") || !e.select(".kijiji-autos-logo").isEmpty());
+          
+          /* Looping through all containers that contain a vehicle */
+          adHTMLContainers.stream()
+            .forEach(adHTMLContainer -> {
+              Vehicle newVehicle = createVehicle(adHTMLContainer, vehicleBrand, vehicleModel, adDateScraped, adInstantScraped);
+              if (newVehicle != null) {
+                allVehicles.add(newVehicle);
+              }
+            });
+        } catch(Exception e) {
+          logger.info("KI: Error parsing page", e);
         }
-
-        /*Creating a list of containers that will hold vehicles */
-        Element mainContainer = doc.select("main").first().firstElementChild();
-        while (mainContainer.nextElementSibling() != null) {
-          mainContainer = mainContainer.nextElementSibling();
-        }
-        Elements adHTMLContainers = mainContainer.children();
-        adHTMLContainers.removeIf(e -> !e.hasAttr("data-listing-id") || !e.select(".kijiji-autos-logo").isEmpty());
-        
-        /* Looping through all containers that contain a vehicle */
-        adHTMLContainers.stream()
-          .forEach(adHTMLContainer -> {
-            Vehicle newVehicle = createVehicle(adHTMLContainer, vehicleBrand, vehicleModel, adDateScraped, adInstantScraped);
-            if (newVehicle != null) {
-              allVehicles.add(newVehicle);
-            }
-          });
       }
     }
 

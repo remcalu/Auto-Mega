@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
+
+import com.google.gson.JsonObject;
 
 import auto.mega.models.ConfigOptions;
 import auto.mega.models.Vehicle;
@@ -39,6 +40,9 @@ public class CarpagesParser extends RequestWebsiteParser {
     /* Getting search configuration options from file */
     HashMap<String, Object> urlParamsMap = createUrlParamMap(searchOptions);
 
+    /* Getting mappings of postal codes to coordinates */
+    JsonObject postalCodeCoordsMap = JsonHelper.getPostalCodeCoordsMap();
+
     /* Looping through all vehicles found in the config file */
     ArrayList<String> allVehicleBrands = new ArrayList<>(searchOptions.getVehicleBrandModels().keySet());
     ArrayList<String> allVehicleModels = new ArrayList<>();
@@ -49,22 +53,28 @@ public class CarpagesParser extends RequestWebsiteParser {
     urlParamsMap.put("models", allVehicleModels);
 
     Elements adHTMLContainers = new Elements();
-    for (int i = 1; i < 30; i++) {
-      logger.info("CP: Parsing vehicle page: {}", i);
+    int currentNumAds = 0;
+    for (int i = 1; i < 100; i++) {
+      try {
+        logger.info("CP: Parsing vehicle page: {}", i);
+        urlParamsMap.put("pageNum", i);
+        int previousNumAds = currentNumAds;
 
-      urlParamsMap.put("pageNum", i);
-      String currentURL = urlConstructor(urlParamsMap);
+        String currentURL = urlConstructor(urlParamsMap, postalCodeCoordsMap);
+        /* Add artificial wait times to circumvent DOS protection */
+        Document doc = extractWebsiteResponse(currentURL, ".main-container", REQUEST_DELAY_TIME_SHORT, REQUEST_FAILURE_RETRY_WAIT);
+        if (doc == null) {
+          continue;
+        }
+        adHTMLContainers.addAll(doc.select(".media.soft.push-none"));
 
-      /* Add artificial wait times to circumvent DOS protection */
-      Document doc = extractWebsiteResponse(currentURL, ".main-container", REQUEST_DELAY_TIME_SHORT, REQUEST_FAILURE_RETRY_WAIT);
-      if (doc == null) {
-        continue;
-      }
-      adHTMLContainers.addAll(doc.select(".media.soft.push-none"));
-
-      /* Exit when no further pages */
-      if (doc.select("a[title='Next Page']").isEmpty()) {
-        break;
+        /* Exit when no further pages */
+        currentNumAds = adHTMLContainers.size();
+        if (previousNumAds == currentNumAds) {
+          break;
+        }
+      } catch(Exception e) {
+        logger.info("CP: Error parsing page", e);
       }
     }
 
@@ -93,7 +103,6 @@ public class CarpagesParser extends RequestWebsiteParser {
     int maxMileage = (int) params.get("maxMileage");
     int distance = (int) params.get("distance");
     int pageNum = (int) params.get("pageNum");
-    String postalCode = (String) params.get("postalCode");
     String transmission = (String) params.get("transmission");
 
     /* Some cleaning up and post processing */
@@ -125,10 +134,6 @@ public class CarpagesParser extends RequestWebsiteParser {
       transmissionStr = "&transmissiontype_id=2";
     }
 
-    Pair<Double, Double> postalCodeCoords = JsonHelper.getCoordsFromPostal(postalCode);
-    double lattitude = postalCodeCoords.getLeft();
-    double longitude = postalCodeCoords.getRight();
-
     return "https://www.carpages.ca/used-cars/search/?odometer_amount_start=10000&odometer_amount_end=" + 
       maxMileage + "&year_start=" + 
       minYear + "&price_amount_start=1000&price_amount_end=" +
@@ -136,10 +141,29 @@ public class CarpagesParser extends RequestWebsiteParser {
       brandsString + "&model_name=" + 
       modelsString + 
       transmissionStr + "&search_radius=" + 
-      distance + "&with_prices_only=1&ll=" + 
-      lattitude + "," + 
-      longitude + "&p=" + 
+      distance + "&with_prices_only=1&p=" + 
       pageNum;
+  }
+
+    /** Constructs a URL for a specific website to narrow down search operations for a vehicle
+   * @param params         the map containing key value pairs of various paramaters for URL construction
+   * @param allPostalCodes the JsonObject containing mapping of postal codes to
+   * @return               the constructed URL
+  */
+  protected String urlConstructor(Map<String, Object> params, JsonObject allPostalCodes) {
+    String urlNoPostal = urlConstructor(params);
+    String urlPostalParams = "";
+    String postalCode = (String) params.get("postalCode");
+
+    JsonObject postalCodeCoords = allPostalCodes.get(postalCode.replace(" ", "").toUpperCase()).getAsJsonObject();
+    if (postalCodeCoords == null) {
+      /* Return toronto */
+      urlPostalParams = "&ll=43.651070,-79.347015";
+    } else {
+      urlPostalParams = "&ll=" + postalCodeCoords.get("t").getAsDouble() + "," + postalCodeCoords.get("n").getAsDouble();
+    }
+
+    return urlNoPostal + urlPostalParams;
   }
 
   /** Creates a vehicle through various previously parsed data and new data that will be parsed from an HTML element

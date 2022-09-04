@@ -46,36 +46,40 @@ public class AutotraderParser extends RequestWebsiteParser {
       
       ArrayList<String> allVehicleModelsForBrand = searchOptions.getVehicleBrandModels().get(vehicleBrand);
       for (String vehicleModel : allVehicleModelsForBrand) {
-        logger.info("AT: Parsing vehicles of type: {} {}", vehicleBrand, vehicleModel);
+        try {
+          logger.info("AT: Parsing vehicles of type: {} {}", vehicleBrand, vehicleModel);
 
-        urlParamsMap.put("model", vehicleModel);
+          urlParamsMap.put("model", vehicleModel);
 
-        /* Constructing URL from configuration paramaters */
-        String currentURL = urlConstructor(urlParamsMap);
+          /* Constructing URL from configuration paramaters */
+          String currentURL = urlConstructor(urlParamsMap);
 
-        /* Add artificial wait times to circumvent DOS protection */
-        int waitTime = calculateWaitTime(++numRequests, REQUESTS_UNTIL_LONG_WAIT, REQUEST_DELAY_TIME_SHORT, REQUEST_DELAY_TIME_LONG);
-        Document doc = extractWebsiteResponse(currentURL, "#en-ca", waitTime, REQUEST_FAILURE_RETRY_WAIT);
-        if (doc == null) {
-          continue;
+          /* Add artificial wait times to circumvent DOS protection */
+          int waitTime = calculateWaitTime(++numRequests, REQUESTS_UNTIL_LONG_WAIT, REQUEST_DELAY_TIME_SHORT, REQUEST_DELAY_TIME_LONG);
+          Document doc = extractWebsiteResponse(currentURL, "#en-ca", waitTime, REQUEST_FAILURE_RETRY_WAIT);
+          if (doc == null) {
+            continue;
+          }
+
+          /* Performing no further parsing if no vehicles are found at that URL */
+          int numVehiclesFound = Integer.parseInt(doc.select("#sbCount").text().replace(",", ""));
+          if (numVehiclesFound == 0) {
+            continue;
+          }
+
+
+          /* Looping through all containers that contain a vehicle */
+          Elements adHTMLContainers = doc.select(".result-item");
+          adHTMLContainers.stream()
+            .forEach(adHTMLContainer -> {
+              Vehicle newVehicle = createVehicle(adHTMLContainer, vehicleBrand, vehicleModel, adDateScraped, adInstantScraped);
+              if (newVehicle != null) {
+                allVehicles.add(newVehicle);
+              }
+            });
+        } catch(Exception e) {
+          logger.info("AT: Error parsing page", e);
         }
-
-        /* Performing no further parsing if no vehicles are found at that URL */
-        int numVehiclesFound = Integer.parseInt(doc.select("#sbCount").text().replace(",", ""));
-        if (numVehiclesFound == 0) {
-          continue;
-        }
-
-
-        /* Looping through all containers that contain a vehicle */
-        Elements adHTMLContainers = doc.select(".result-item");
-        adHTMLContainers.stream()
-          .forEach(adHTMLContainer -> {
-            Vehicle newVehicle = createVehicle(adHTMLContainer, vehicleBrand, vehicleModel, adDateScraped, adInstantScraped);
-            if (newVehicle != null) {
-              allVehicles.add(newVehicle);
-            }
-          });
       }
     }
 

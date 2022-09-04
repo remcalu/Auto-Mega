@@ -150,7 +150,7 @@ public class JsonHelper {
     return vehicleList;
   }
 
-  public static Pair<Double, Double> getCoordsFromPostal(String postalCode) {
+  public static JsonObject getPostalCodeCoordsMap() {
     /* Getting options file data */
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     JsonReader reader;
@@ -159,12 +159,6 @@ public class JsonHelper {
     } catch (FileNotFoundException e) {
       return null;
     }
-    JsonObject optionsJsonObj = gson.fromJson(reader, JsonObject.class);
-    JsonObject postalCodeCoords = optionsJsonObj.get(postalCode.replace(" ", "").toUpperCase()).getAsJsonObject();
-    if (postalCodeCoords == null) {
-      /* Return toronto */
-      return Pair.of(43.651070, -79.347015);
-    }
-    return Pair.of(postalCodeCoords.get("lat").getAsDouble(), postalCodeCoords.get("lon").getAsDouble());
+    return gson.fromJson(reader, JsonObject.class);
   }
 }
