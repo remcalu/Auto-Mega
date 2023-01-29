@@ -21,10 +21,8 @@ I did have a [previous project](https://github.com/remcalu/Autotrader-Scraper) t
 
 I also wanted to get a **high quality full stack project** out since I've gained considerable skills for both frontend and backend development throughout school, and even more through my internships!
 
-## Website Demo (August 24, 2022)
-https://user-images.githubusercontent.com/59599955/186570213-52e959e7-3d44-43f9-a182-664cfb939cb8.mp4
-
-
+## Website Demo (January 2023)
+https://drive.google.com/file/d/1PZwpZimOg0QKmuY8EdQ81BJFzh8V_mW8/view?usp=sharing
 
 ## Vehicle searching support
 |                  | Autotrader  | Carpages   | Kijiji  | Image |
